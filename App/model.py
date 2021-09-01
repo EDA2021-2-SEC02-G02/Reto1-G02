@@ -37,54 +37,21 @@ los mismos.
 
 # Construccion de modelos
 def newCatalog():
-    """
-    Inicializa el catálogo de libros. Crea una lista vacia para guardar
-    todos los libros, adicionalmente, crea una lista vacia para los autores,
-    una lista vacia para los generos y una lista vacia para la asociación
-    generos y libros. Retorna el catalogo inicializado.
-    """
-    catalog = {'Object ID': None,
-               'Title': None,
-               'Constitutent ID': None,
-               'Date': None,
-               "Medium": None,
-               "Dimensions": None,
-               "Credit line": None,
-               "Accession number": None,
-               "Department": None,
-               "Date acquired": None,
-               "Cataloged": None,
-               "URL": None,
-               "Circumference": None,
-               "Depth": None,
-               "Diameter": None,
-               "Height": None,
-               "Lenght": None,
-               "Weight": None,
-               "Width": None,
-               "Seat height": None,
-               "Duration": None,
-               "Display name": None,
-               "Artist bio": None,
-               "Nationality": None,
-               "Gender": None,
-               "Begin date": None,
-               "End date": None,
-               "Wiki ID": None,
-               "Ulan": None}
+    
+    catalog = {"Artista":None, "Obra":None }
+    catalog['Artista']= lt.newList()
+    catalog["Obra"]=lt.newList()
 
-    catalog['Object ID'] = lt.newList()
-    catalog['authors'] = lt.newList('ARRAY_LIST',
-                                    cmpfunction=compareauthors)
-    catalog['tags'] = lt.newList('ARRAY_LIST',
-                                 cmpfunction=comparetagnames)
-    catalog['book_tags'] = lt.newList('ARRAY_LIST')
 
     return catalog
 
 # Funciones para agregar informacion al catalogo
+def addartista(catalog, artista):
+    lt.addLast(catalog["Artista"],artista)
 
 # Funciones para creacion de datos
+def addobra(catalog, obra):
+    lt.addLast(catalog["Obra"],obra)
 
 # Funciones de consulta
 
