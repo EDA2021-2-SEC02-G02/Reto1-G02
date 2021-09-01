@@ -20,7 +20,7 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
-from App.controller import initcatalog
+#from App.controller import initcatalog
 import config as cf
 import sys
 import controller
@@ -64,8 +64,8 @@ while True:
         print("Cargando información de los archivos ....")
         catalog=inicializar_catalogo()
         cargarinfo(catalog)
-        print("Artistas cargados"+str(lt.size(catalog["Artista"])))
-        print("Obras cargadas"+str(lt.size(catalog["Obra"])))
+        print("Artistas cargados "+str(lt.size(catalog["Artista"])))
+        print("Obras cargadas "+str(lt.size(catalog["Obra"])))
 
 
     elif int(inputs[0]) == 1:
