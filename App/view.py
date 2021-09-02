@@ -20,7 +20,7 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
-#from App.controller import initcatalog
+
 import config as cf
 import sys
 import controller
@@ -69,6 +69,7 @@ while True:
 
 
     elif int(inputs[0]) == 1:
+
         pass
 
     else:
