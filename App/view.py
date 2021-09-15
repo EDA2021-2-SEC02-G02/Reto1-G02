@@ -76,7 +76,7 @@ while True:
             tamaño=int(input("Ingrese el tamaño de la muestra: "))
         algoritmo=input("Ingrese el tipo de algoritmo de ordenamiento que desea utilizar (shellsort, insertionsort, mergesort, quicksort): ")
         tiempo=controller.sortdate(algoritmo,catalog,tamaño)
-        print ("El tiempo en mseg para una muestra de "+ str(tamaño)+ " elementos, es de: "+str(round(tiempo[0],2))+ " y los 3 primeros valores de la muestra son: "+str(lt.getElement(tiempo[1],1))+str(lt.getElement(tiempo[1],2))+str(lt.getElement(tiempo[1],3)))
+        print ("El tiempo en para una muestra de "+ str(tamaño)+ " elementos, es de: "+str(round(tiempo[0],2))+ " mseg y los 3 primeros valores de la muestra son: "+str(lt.getElement(tiempo[1],1))+str(lt.getElement(tiempo[1],2))+str(lt.getElement(tiempo[1],3)))
 
 
         
