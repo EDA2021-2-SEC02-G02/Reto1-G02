@@ -54,32 +54,47 @@ def newCatalog():
     return catalog
 
 # Funciones para agregar informacion al catalogo
-def addartista(catalog, artista, tipolista):
-    if tipolista==1:
-        artista={"ConstituentID": artista["ConstituentID"],
-             "DisplayName": artista["DisplayName"],
-             "Nacionality": artista["Gender"],
-             "BeginDate":artista["BeginDate"],
-             "EndDate": artista["EndDate"],
+def addartista(catalog, artistas):
+        artista={"ConstituentID": artistas["ConstituentID"],
+             "DisplayName": artistas["DisplayName"],
+             "Nacionality": artistas["Gender"],
+             "BeginDate":artistas["BeginDate"],
+             "EndDate": artistas["EndDate"],
              "Artworks":lt.newList("ARRAY_LIST")}
         lt.addLast(catalog["Artista"],artista)
 
-    if tipolista==2:
-        artista={"ConstituentID": artista["ConstituentID"],
-             "DisplayName": artista["DisplayName"],
-             "Nacionality": artista["Gender"],
-             "BeginDate":artista["BeginDate"],
-             "EndDate": artista["EndDate"],
-             "Artworks":lt.newList("LINKED_LIST")}
-        lt.addLast(catalog["Artista"],artista)
-    
 # Funciones para creacion de datos
-def addobra(catalog, obra):
-    lt.addLast(catalog["Obra"],obra)
+def addobra(catalog, obras, tipolista):
+    if tipolista=="ARRAY_LIST":
+        obra={"ObjectID":obras["ObjectID"],
+          "Title": obras ["Title"],
+          "ConstituentID": obras ["ConstituentID"],
+          "Date": obras["Date"],
+          "Medium": obras["Medium"],
+          "Dimensions": obras["Dimensions"],
+          "CreditLine": obras["CreditLine"],
+          "Department": obras["Department"],
+          "DateAcquired": obras["DateAcquired"],
+          "Artists":lt.newList("ARRAY_LIST")}
+        lt.addLast(catalog["Obra"],obras)
 
-def sortdate (algoritmo,catalog,size):
+    if tipolista=="LINKED_LIST":
+        obra={"ObjectID":obras["ObjectID"],
+          "Title": obras ["Title"],
+          "ConstituentID": obras ["ConstituentID"],
+          "Date": obras["Date"],
+          "Medium": obras["Medium"],
+          "Dimensions": obras["Dimensions"],
+          "CreditLine": obras["CreditLine"],
+          "Department": obras["Department"],
+          "DateAcquired": obras["DateAcquired"],
+          "Artists":lt.newList("LINKED_LIST")}
+        lt.addLast(catalog["Obra"],obras)
+
+
+def sortdate (algoritmo,catalog,tamaño):
     if algoritmo == "shellsort":
-        sub_list = lt.subList(catalog["Obra"], 1, size)
+        sub_list = lt.subList(catalog["Obra"], 1, tamaño)
         sub_list = sub_list.copy()
         start_time = time.process_time()
         sorted_list=sa.sort(sub_list, cmpArtworkByDateAcquired)
@@ -87,8 +102,8 @@ def sortdate (algoritmo,catalog,size):
         elapsed_time_mseg = (stop_time - start_time)*1000
         return elapsed_time_mseg,sorted_list
 
-    if algoritmo == "insertionsort":
-        sub_list = lt.subList(catalog["Obra"], 1, size)
+    elif algoritmo == "insertionsort":
+        sub_list = lt.subList(catalog["Obra"], 1, tamaño)
         sub_list = sub_list.copy()
         start_time = time.process_time()
         sorted_list=it.sort(sub_list, cmpArtworkByDateAcquired)
@@ -96,8 +111,8 @@ def sortdate (algoritmo,catalog,size):
         elapsed_time_mseg = (stop_time - start_time)*1000
         return elapsed_time_mseg,sorted_list
 
-    if algoritmo == "mergesort":
-        sub_list = lt.subList(catalog["Obra"], 1, size)
+    elif algoritmo == "mergesort":
+        sub_list = lt.subList(catalog["Obra"], 1, tamaño)
         sub_list = sub_list.copy()
         start_time = time.process_time()
         sorted_list=mg.sort(sub_list, cmpArtworkByDateAcquired)
@@ -105,8 +120,8 @@ def sortdate (algoritmo,catalog,size):
         elapsed_time_mseg = (stop_time - start_time)*1000
         return elapsed_time_mseg,sorted_list
 
-    if algoritmo == "quicksort":
-        sub_list = lt.subList(catalog["Obra"], 1, size)
+    elif algoritmo == "quicksort":
+        sub_list = lt.subList(catalog["Obra"], 1, tamaño)
         sub_list = sub_list.copy()
         start_time = time.process_time()
         sorted_list=qu.sort(sub_list, cmpArtworkByDateAcquired)
@@ -115,7 +130,7 @@ def sortdate (algoritmo,catalog,size):
         return elapsed_time_mseg,sorted_list
 
 def cmpArtworkByDateAcquired (obra1, obra2):
-    if obra1["DateAcquired"]!= " " and obra2["DateAcquired"]!= " ":
+    if obra1["DateAcquired"]!= "" and obra2["DateAcquired"]!= "":
         fecha1= dt.date.fromisoformat(obra1["DateAcquired"])
         fecha2= dt.date.fromisoformat(obra2["DateAcquired"])
         return fecha1<fecha2

@@ -49,8 +49,8 @@ def printMenu():
 def inicializar_catalogo():
     return controller.initcatalog()
 
-def cargarinfo(catalog):
-    controller.loaddata(catalog)
+def cargarinfo(catalog, tipolista):
+    controller.loaddata(catalog, tipolista)
 
 catalog=None
 
@@ -61,27 +61,25 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 0:
+        tipolista=input("Ingrese el tipo de lista (ARRAY_LIST, LINKED_LIST): ")
         print("Cargando información de los archivos ....")
         catalog=inicializar_catalogo()
-        cargarinfo(catalog)
+        cargarinfo(catalog, tipolista)
         print("Artistas cargados "+str(lt.size(catalog["Artista"])))
         print("Obras cargadas "+str(lt.size(catalog["Obra"])))
 
 
     elif int(inputs[0]) == 2:
-        tipolista=input("Ingrese el tipo de lista: ")
-        algoritmo=input("Ingrese el tipo de algoritmo: ")
-        size=input("Ingrese el tamaño de la muestra: ")
-        if size > size(catalog["Obra"]):
-            print("El tamaño de la muestra excede el tamaño de los datos cargados"+ str(size(catalog["Obra"])))
-        
+        tamaño=int(input("Ingrese el tamaño de la muestra: "))
+        while tamaño > lt.size(catalog["Obra"]):
+            print("El tamaño de la muestra excede el tamaño de los datos cargados, ingrese una menor a "+ str(lt.size(catalog["Obra"])))
+            tamaño=int(input("Ingrese el tamaño de la muestra: "))
+        algoritmo=input("Ingrese el tipo de algoritmo de ordenamiento que desea utilizar (shellsort, insertionsort, mergesort, quicksort): ")
+        tiempo=controller.sortdate(algoritmo,catalog,tamaño)
+        print ("El tiempo en mseg para una muestra de "+ str(tamaño)+ " elementos, es de: "+str(round(tiempo[0],2)+ " y los 3 primeros valores de la muestra son: "+str(getElement(tiempo[1],1))+str(getElement(tiempo[1],2))+str(getElement(tiempo[1],3)))
 
 
         
-
-
-        pass
-
     else:
         sys.exit(0)
 sys.exit(0)

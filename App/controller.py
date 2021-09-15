@@ -35,9 +35,9 @@ def initcatalog():
     return catalog
 
 # Funciones para la carga de datos
-def loaddata(catalog):
+def loaddata(catalog, tipolista):
     loadartistas(catalog)
-    loadobras(catalog)
+    loadobras(catalog, tipolista)
 
 def loadartistas(catalog):
     artistfile=cf.data_dir+"Artists-utf8-small.csv"
@@ -45,11 +45,11 @@ def loadartistas(catalog):
     for artista in input_file:
         model.addartista(catalog,artista)
 
-def loadobras(catalog):
+def loadobras(catalog, tipolista):
     obrasfile=cf.data_dir+"Artworks-utf8-small.csv"
     input_file=csv.DictReader(open(obrasfile,encoding="utf-8"))
     for obra in input_file:
-        model.addobra(catalog,obra)
+        model.addobra(catalog,obra, tipolista)
 
 
 
