@@ -82,7 +82,7 @@ def sortdate (algoritmo,catalog,size):
         sub_list = lt.subList(catalog["Obra"], 1, size)
         sub_list = sub_list.copy()
         start_time = time.process_time()
-        sorted_list=sa.sort(sub_list, cmpfunction)
+        sorted_list=sa.sort(sub_list, cmpArtworkByDateAcquired)
         stop_time = time.process_time()
         elapsed_time_mseg = (stop_time - start_time)*1000
         return elapsed_time_mseg,sorted_list
@@ -91,7 +91,7 @@ def sortdate (algoritmo,catalog,size):
         sub_list = lt.subList(catalog["Obra"], 1, size)
         sub_list = sub_list.copy()
         start_time = time.process_time()
-        sorted_list=it.sort(sub_list, cmpfunction)
+        sorted_list=it.sort(sub_list, cmpArtworkByDateAcquired)
         stop_time = time.process_time()
         elapsed_time_mseg = (stop_time - start_time)*1000
         return elapsed_time_mseg,sorted_list
@@ -100,7 +100,7 @@ def sortdate (algoritmo,catalog,size):
         sub_list = lt.subList(catalog["Obra"], 1, size)
         sub_list = sub_list.copy()
         start_time = time.process_time()
-        sorted_list=mg.sort(sub_list, cmpfunction)
+        sorted_list=mg.sort(sub_list, cmpArtworkByDateAcquired)
         stop_time = time.process_time()
         elapsed_time_mseg = (stop_time - start_time)*1000
         return elapsed_time_mseg,sorted_list
@@ -109,7 +109,7 @@ def sortdate (algoritmo,catalog,size):
         sub_list = lt.subList(catalog["Obra"], 1, size)
         sub_list = sub_list.copy()
         start_time = time.process_time()
-        sorted_list=qu.sort(sub_list, cmpfunction)
+        sorted_list=qu.sort(sub_list, cmpArtworkByDateAcquired)
         stop_time = time.process_time()
         elapsed_time_mseg = (stop_time - start_time)*1000
         return elapsed_time_mseg,sorted_list

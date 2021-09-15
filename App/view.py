@@ -74,8 +74,8 @@ while True:
         size=input("Ingrese el tamaño de la muestra: ")
         if size > size(catalog["Obra"]):
             print("El tamaño de la muestra excede el tamaño de los datos cargados"+ str(size(catalog["Obra"])))
-        elif:
-            
+        
+
 
         
 
