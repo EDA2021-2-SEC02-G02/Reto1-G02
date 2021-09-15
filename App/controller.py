@@ -51,6 +51,10 @@ def loadobras(catalog):
     for obra in input_file:
         model.addobra(catalog,obra)
 
+
+
 # Funciones de ordenamiento
+def sortdate(algoritmo,catalog,size):
+    return model.sortdate(algoritmo,catalog,size)
 
 # Funciones de consulta sobre el catálogo

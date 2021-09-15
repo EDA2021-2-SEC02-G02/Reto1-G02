@@ -68,8 +68,17 @@ while True:
         print("Obras cargadas "+str(lt.size(catalog["Obra"])))
 
 
-    elif int(inputs[0]) == 1:
+    elif int(inputs[0]) == 2:
+        tipolista=input("Ingrese el tipo de lista: ")
+        algoritmo=input("Ingrese el tipo de algoritmo: ")
+        size=input("Ingrese el tamaño de la muestra: ")
+        if size > size(catalog["Obra"]):
+            print("El tamaño de la muestra excede el tamaño de los datos cargados"+ str(size(catalog["Obra"])))
+        elif:
+            
+
         
+
 
         pass
 

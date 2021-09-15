@@ -114,7 +114,7 @@ def sortdate (algoritmo,catalog,size):
         elapsed_time_mseg = (stop_time - start_time)*1000
         return elapsed_time_mseg,sorted_list
 
-def cmpfunction (obra1, obra2):
+def cmpArtworkByDateAcquired (obra1, obra2):
     if obra1["DateAcquired"]!= " " and obra2["DateAcquired"]!= " ":
         fecha1= dt.date.fromisoformat(obra1["DateAcquired"])
         fecha2= dt.date.fromisoformat(obra2["DateAcquired"])
