@@ -26,8 +26,14 @@
 
 
 import config as cf
+import datetime as dt
+import time as time
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import insertionsort as it
+from DISClib.Algorithms.Sorting import mergesort as mg
+from DISClib.Algorithms.Sorting import quicksort as qu
+
 assert cf
 
 """
@@ -38,7 +44,9 @@ los mismos.
 # Construccion de modelos
 def newCatalog():
     
-    catalog = {"Artista":None, "Obra":None }
+    catalog = {"Artista":None,
+                 "Obra":None }
+
     catalog['Artista']= lt.newList()
     catalog["Obra"]=lt.newList()
 
@@ -46,14 +54,81 @@ def newCatalog():
     return catalog
 
 # Funciones para agregar informacion al catalogo
-def addartista(catalog, artista):
-    lt.addLast(catalog["Artista"],artista)
+def addartista(catalog, artista, tipolista):
+    if tipolista==1:
+        artista={"ConstituentID": artista["ConstituentID"],
+             "DisplayName": artista["DisplayName"],
+             "Nacionality": artista["Gender"],
+             "BeginDate":artista["BeginDate"],
+             "EndDate": artista["EndDate"],
+             "Artworks":lt.newList("ARRAY_LIST")}
+        lt.addLast(catalog["Artista"],artista)
 
+    if tipolista==2:
+        artista={"ConstituentID": artista["ConstituentID"],
+             "DisplayName": artista["DisplayName"],
+             "Nacionality": artista["Gender"],
+             "BeginDate":artista["BeginDate"],
+             "EndDate": artista["EndDate"],
+             "Artworks":lt.newList("LINKED_LIST")}
+        lt.addLast(catalog["Artista"],artista)
+    
 # Funciones para creacion de datos
 def addobra(catalog, obra):
     lt.addLast(catalog["Obra"],obra)
 
+def sortdate (algoritmo,catalog,size):
+    if algoritmo == "shellsort":
+        sub_list = lt.subList(catalog["Obra"], 1, size)
+        sub_list = sub_list.copy()
+        start_time = time.process_time()
+        sorted_list=sa.sort(sub_list, cmpfunction)
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+        return elapsed_time_mseg,sorted_list
+
+    if algoritmo == "insertionsort":
+        sub_list = lt.subList(catalog["Obra"], 1, size)
+        sub_list = sub_list.copy()
+        start_time = time.process_time()
+        sorted_list=it.sort(sub_list, cmpfunction)
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+        return elapsed_time_mseg,sorted_list
+
+    if algoritmo == "mergesort":
+        sub_list = lt.subList(catalog["Obra"], 1, size)
+        sub_list = sub_list.copy()
+        start_time = time.process_time()
+        sorted_list=mg.sort(sub_list, cmpfunction)
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+        return elapsed_time_mseg,sorted_list
+
+    if algoritmo == "quicksort":
+        sub_list = lt.subList(catalog["Obra"], 1, size)
+        sub_list = sub_list.copy()
+        start_time = time.process_time()
+        sorted_list=qu.sort(sub_list, cmpfunction)
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+        return elapsed_time_mseg,sorted_list
+
+def cmpfunction (obra1, obra2):
+    if obra1["DateAcquired"]!= " " and obra2["DateAcquired"]!= " ":
+        fecha1= dt.date.fromisoformat(obra1["DateAcquired"])
+        fecha2= dt.date.fromisoformat(obra2["DateAcquired"])
+        return fecha1<fecha2
+
+
+
+
+
+
 # Funciones de consulta
+# REQ. 1: listar cronológicamente los artistas 
+
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
