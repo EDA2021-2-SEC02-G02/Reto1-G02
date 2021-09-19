@@ -47,8 +47,8 @@ def newCatalog():
     catalog = {"Artista":None,
                  "Obra":None }
 
-    catalog['Artista']= lt.newList()
-    catalog["Obra"]=lt.newList()
+    catalog['Artista']= lt.newList("ARRAY_LIST")
+    catalog["Obra"]=lt.newList("ARRAY_LIST")
 
 
     return catalog
@@ -60,12 +60,11 @@ def addartista(catalog, artistas):
              "Nacionality": artistas["Gender"],
              "BeginDate":artistas["BeginDate"],
              "EndDate": artistas["EndDate"],
+             "Gender": artistas["Gender"],
              "Artworks":lt.newList("ARRAY_LIST")}
         lt.addLast(catalog["Artista"],artista)
 
-# Funciones para creacion de datos
-def addobra(catalog, obras, tipolista):
-    if tipolista=="ARRAY_LIST":
+def addobra(catalog, obras):
         obra={"ObjectID":obras["ObjectID"],
           "Title": obras ["Title"],
           "ConstituentID": obras ["ConstituentID"],
@@ -76,59 +75,77 @@ def addobra(catalog, obras, tipolista):
           "Department": obras["Department"],
           "DateAcquired": obras["DateAcquired"],
           "Artists":lt.newList("ARRAY_LIST")}
-        lt.addLast(catalog["Obra"],obras)
-
-    if tipolista=="LINKED_LIST":
-        obra={"ObjectID":obras["ObjectID"],
-          "Title": obras ["Title"],
-          "ConstituentID": obras ["ConstituentID"],
-          "Date": obras["Date"],
-          "Medium": obras["Medium"],
-          "Dimensions": obras["Dimensions"],
-          "CreditLine": obras["CreditLine"],
-          "Department": obras["Department"],
-          "DateAcquired": obras["DateAcquired"],
-          "Artists":lt.newList("LINKED_LIST")}
-        lt.addLast(catalog["Obra"],obras)
+        lt.addLast(catalog["Obra"],obra)  
+        posición=lt.isPresent(catalog["Artista"],obras["ConstituenID"])
+        lt.addLast(obra["Artists"],lt.getElement(catalog["Artista"],posición))
+       
 
 
-def sortdate (algoritmo,catalog,tamaño):
-    if algoritmo == "shellsort":
-        sub_list = lt.subList(catalog["Obra"], 1, tamaño)
+# Funciones para creacion de datos  
+# REQ. 1: listar cronológicamente los artistas  
+ 
+def addartistyear(catalog, año1, año2):
+    artistsinrange=lt.newList("ARRAY_LIST")
+    i=1
+    while i<= lt.size(catalog["Artista"]):
+        artista=lt.getElement(catalog["Artista"],i)
+        if int(artista["BeginDate"])>= año1 and int(artista["BeginDate"])<=año2:
+            lt.addLast(artistsinrange, artista)
+    sortedlist=sortyear(artistsinrange)
+    return sortedlist
+
+  # Funciones de ordenamiento
+def sortyear (artistsinrange):
+        sub_list = lt.subList(artistsinrange, 1, lt.size(artistsinrange))
         sub_list = sub_list.copy()
-        start_time = time.process_time()
-        sorted_list=sa.sort(sub_list, cmpArtworkByDateAcquired)
-        stop_time = time.process_time()
-        elapsed_time_mseg = (stop_time - start_time)*1000
-        return elapsed_time_mseg,sorted_list
+        sorted_list=mg.sort(sub_list, cmpArtworkByBeginDate)
+        return sorted_list
 
-    elif algoritmo == "insertionsort":
-        sub_list = lt.subList(catalog["Obra"], 1, tamaño)
-        sub_list = sub_list.copy()
-        start_time = time.process_time()
-        sorted_list=it.sort(sub_list, cmpArtworkByDateAcquired)
-        stop_time = time.process_time()
-        elapsed_time_mseg = (stop_time - start_time)*1000
-        return elapsed_time_mseg,sorted_list
+  # Funciones utilizadas para comparar elementos dentro de una lista
+def cmpArtworkByBeginDate (date1, date2):
+    if date1["BeginDate"]!= "" and date2["BeginDate"]!= "":
+        year1= int((date1["BeginDate"]))
+        year2= int((date2["BeginDate"]))
+        return year1<year2 
 
-    elif algoritmo == "mergesort":
-        sub_list = lt.subList(catalog["Obra"], 1, tamaño)
-        sub_list = sub_list.copy()
-        start_time = time.process_time()
-        sorted_list=mg.sort(sub_list, cmpArtworkByDateAcquired)
-        stop_time = time.process_time()
-        elapsed_time_mseg = (stop_time - start_time)*1000
-        return elapsed_time_mseg,sorted_list
 
-    elif algoritmo == "quicksort":
-        sub_list = lt.subList(catalog["Obra"], 1, tamaño)
-        sub_list = sub_list.copy()
-        start_time = time.process_time()
-        sorted_list=qu.sort(sub_list, cmpArtworkByDateAcquired)
-        stop_time = time.process_time()
-        elapsed_time_mseg = (stop_time - start_time)*1000
-        return elapsed_time_mseg,sorted_list
+#REQ. 2: listar cronológicamente las adquisiciones 
+def addartworkyear(catalog, fecha1,fecha2):
+    date=dt.date.fromisoformat(catalog["Obra"]["DateAcquired"])
+    if date>= fecha1 and date<=fecha2:
+        if catalog["Obra"]["ConstituentID"] == catalog["Artista"]["ConstituentID"]:
+            artist=catalog["Artista"]["DisplayName"]
+        artworksinrange={"ObjectID":catalog["Obra"]["ObjectID"],
+          "Title": catalog["Obra"] ["Title"],
+          "ConstituentID": catalog["Obra"] ["ConstituentID"],
+          "Date": catalog["Obra"]["Date"],
+          "Medium": catalog["Obra"]["Medium"],
+          "CreditLine": catalog["Obra"]["CreditLine"],
+          "Department": catalog["Obra"]["Department"],
+          "DateAcquired": catalog["Obra"]["DateAcquired"],
+          "Artist":artist
+        lt.addLast(catalog["artworkyear"],artworksinrange)
 
+  #encontrar obras compradas
+  #get element
+def purchaseart (listaordenada2):
+
+    i=1
+    n=0
+    while i<=lt.size(listaordenada2):
+        i+=1
+        if listaordenada2["CreditLine"]=="Purchase":
+            n+=1
+    return n
+    
+  # Funciones de ordenamiento
+def sortdate (catalog):
+    sub_list = lt.subList(catalog["artworkyear"], 1,lt.size(catalog["artworkyear"]) )
+    sub_list = sub_list.copy()
+    sorted_list=mg.sort(sub_list, cmpArtworkByDateAcquired)
+    return sorted_list
+
+  # Funciones utilizadas para comparar elementos dentro de una lista
 def cmpArtworkByDateAcquired (obra1, obra2):
     if obra1["DateAcquired"]!= "" and obra2["DateAcquired"]!= "":
         fecha1= dt.date.fromisoformat(obra1["DateAcquired"])

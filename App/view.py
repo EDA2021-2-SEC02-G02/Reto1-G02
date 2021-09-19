@@ -49,8 +49,8 @@ def printMenu():
 def inicializar_catalogo():
     return controller.initcatalog()
 
-def cargarinfo(catalog, tipolista):
-    controller.loaddata(catalog, tipolista)
+def cargarinfo(catalog):
+    controller.loaddata(catalog)
 
 catalog=None
 
@@ -61,24 +61,44 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 0:
-        tipolista=input("Ingrese el tipo de lista (ARRAY_LIST, LINKED_LIST): ")
         print("Cargando información de los archivos ....")
         catalog=inicializar_catalogo()
-        cargarinfo(catalog, tipolista)
+        cargarinfo(catalog)
         print("Artistas cargados "+str(lt.size(catalog["Artista"])))
         print("Obras cargadas "+str(lt.size(catalog["Obra"])))
 
-
-    elif int(inputs[0]) == 2:
-        tamaño=int(input("Ingrese el tamaño de la muestra: "))
-        while tamaño > lt.size(catalog["Obra"]):
-            print("El tamaño de la muestra excede el tamaño de los datos cargados, ingrese una menor a "+ str(lt.size(catalog["Obra"])))
-            tamaño=int(input("Ingrese el tamaño de la muestra: "))
-        algoritmo=input("Ingrese el tipo de algoritmo de ordenamiento que desea utilizar (shellsort, insertionsort, mergesort, quicksort): ")
+    elif int(inputs[0]) == 1:
+        año1= int(input("Ingrese el año inicial del que desea organizar los artistas: "))
+        año2= int(input("Ingrese el año final del que desea organizar los artistas: "))
         print("Cargando archivos ....")
-        tiempo=controller.sortdate(algoritmo,catalog,tamaño)
-        print ("El tiempo en para una muestra de "+ str(tamaño)+ " elementos, es de: "+str(round(tiempo[0],2))+ " mseg") 
+        lista1=controller.addartistyear(catalog, año1, año2)
+        listaordenada1=controller.sortyear(catalog)
+        Nartistas=lt.size(listaordenada1)
+        print("El número total de artistas en dicho rango es de: "+ str(Nartistas)+"los 3 primeros artistas del rango cronológico son: ")
+        tresfirst1=(lt.getElement(listaordenada1,1),lt.getElement(listaordenada1,2),lt.getElement(listaordenada1,3))
+        for artista in tresfirst1:
+            print(artista["DisplayName"], artista[begildc,ld])
 
+        print("los 3 últimos artistas del rango cronológico son: ")
+        treslast1=(lt.getElement(listaordenada1,Nartistas) ,lt.getElement(listaordenada1,Nartistas-1),lt.getElement(listaordenada1,Nartistas-2))
+        for artista in treslast1:
+            print(artista["DisplayName"])
+
+
+# Le dejo el "title"? 
+    elif int(inputs[0]) == 2:
+        fecha1= input("Ingrese la fecha inicial (AAAA MM DD): ")
+        fecha2= input("Ingrese la fecha final (AAAA MM DD): ")
+        print("Cargando archivos ....")
+        lista2= controller.addartworkyear(catalog, fecha1, fecha2)
+        listaordenada2=controller.sortdate(catalog)
+        Nobrascompra=controller.purchaseart(listaordenada2)
+        Nobraslista=lt.size(listaordenada2)
+        tresfirst2= (lt.getElement(listaordenada2,1))["Title"] ,(lt.getElement(listaordenada2,2))["Title"],(lt.getElement(listaordenada2,3))["Title"]
+        treslast2=(lt.getElement(listaordenada2,Nobraslista))["Title"] ,(lt.getElement(listaordenada2,Nobraslista-1))["Title"],(lt.getElement(listaordenada2,Nobraslista-2))["Title"]
+
+    elif int(inputs[0]== 3):
+        Name=
 
     
     else:

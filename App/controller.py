@@ -35,9 +35,9 @@ def initcatalog():
     return catalog
 
 # Funciones para la carga de datos
-def loaddata(catalog, tipolista):
+def loaddata(catalog):
     loadartistas(catalog)
-    loadobras(catalog, tipolista)
+    loadobras(catalog)
 
 def loadartistas(catalog):
     artistfile=cf.data_dir+"Artists-utf8-small.csv"
@@ -45,16 +45,28 @@ def loadartistas(catalog):
     for artista in input_file:
         model.addartista(catalog,artista)
 
-def loadobras(catalog, tipolista):
+def loadobras(catalog):
     obrasfile=cf.data_dir+"Artworks-utf8-small.csv"
     input_file=csv.DictReader(open(obrasfile,encoding="utf-8"))
     for obra in input_file:
-        model.addobra(catalog,obra, tipolista)
-
-
+        model.addobra(catalog,obra)
 
 # Funciones de ordenamiento
-def sortdate(algoritmo,catalog,size):
-    return model.sortdate(algoritmo,catalog,size)
+# REQ. 1: listar cronológicamente los artistas 
+def addartistyear(catalog, año1, año2):
+    return model.addartistyear(catalog, año1, año2)
+
+def sortyear(catalog):
+    return model.sortyear(catalog)
+
+#REQ. 2: listar cronológicamente las adquisiciones 
+def addartworkyear(catalog, fecha1, fecha2):
+    return model.addartworkyear(catalog, fecha1, fecha2)
+
+def sortdate(catalog):
+    return model.sortdate(catalog)
+
+def purchaseart(listaordenada2):
+    return model.purshaseart(listaordenada2)
 
 # Funciones de consulta sobre el catálogo
