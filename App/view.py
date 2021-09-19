@@ -72,28 +72,24 @@ while True:
         año2= int(input("Ingrese el año final del que desea organizar los artistas: "))
         print("Cargando archivos ....")
         lista1=controller.addartistyear(catalog, año1, año2)
-        listaordenada1=controller.sortyear(catalog)
-        Nartistas=lt.size(listaordenada1)
-        print("El número total de artistas en dicho rango es de: "+ str(Nartistas)+"los 3 primeros artistas del rango cronológico son: ")
-        tresfirst1=(lt.getElement(listaordenada1,1),lt.getElement(listaordenada1,2),lt.getElement(listaordenada1,3))
-        for artista in tresfirst1:
-            print(artista["DisplayName"], artista[begildc,ld])
+        nartistas=lt.size(lista1)
+        print("El número total de artistas en dicho rango es de: "+ str(nartistas)+"los 3 primeros artistas del rango cronológico (nombre, año de nacimiento, año de fallecimiento, nacionalidad y género) son: ")
+        tresfirst1=(lt.getElement(lista1,1),lt.getElement(lista1,2),lt.getElement(lista1,3))
+        for artistaF in tresfirst1:
+            print(artistaF["DisplayName"], artistaF["BeginDate"], artistaF["EndDate"], artistaF["Nationality"], artistaF["Gender"])
+        print("los 3 últimos artistas del rango cronológico (nombre, año de nacimiento, año de fallecimiento, nacionalidad y género) son: ")
+        treslast1=(lt.getElement(lista1,nartistas) ,lt.getElement(lista1,nartistas-1),lt.getElement(lista1,nartistas-2))
+        for artistaL in treslast1:
+            print(artistaL["DisplayName"], artistaL["BeginDate"], artistaL["EndDate"], artistaL["Nationality"], artistaL["Gender"])
 
-        print("los 3 últimos artistas del rango cronológico son: ")
-        treslast1=(lt.getElement(listaordenada1,Nartistas) ,lt.getElement(listaordenada1,Nartistas-1),lt.getElement(listaordenada1,Nartistas-2))
-        for artista in treslast1:
-            print(artista["DisplayName"])
-
-
-# Le dejo el "title"? 
+ 
     elif int(inputs[0]) == 2:
         fecha1= input("Ingrese la fecha inicial (AAAA MM DD): ")
         fecha2= input("Ingrese la fecha final (AAAA MM DD): ")
         print("Cargando archivos ....")
         lista2= controller.addartworkyear(catalog, fecha1, fecha2)
-        listaordenada2=controller.sortdate(catalog)
-        Nobrascompra=controller.purchaseart(listaordenada2)
-        Nobraslista=lt.size(listaordenada2)
+        Nobrascompra=controller.purchaseart(lista2)
+        print("El número total de obras en el rango cronológico es de: ")
         tresfirst2= (lt.getElement(listaordenada2,1))["Title"] ,(lt.getElement(listaordenada2,2))["Title"],(lt.getElement(listaordenada2,3))["Title"]
         treslast2=(lt.getElement(listaordenada2,Nobraslista))["Title"] ,(lt.getElement(listaordenada2,Nobraslista-1))["Title"],(lt.getElement(listaordenada2,Nobraslista-2))["Title"]
 

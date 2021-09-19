@@ -63,6 +63,8 @@ def addartista(catalog, artistas):
              "Gender": artistas["Gender"],
              "Artworks":lt.newList("ARRAY_LIST")}
         lt.addLast(catalog["Artista"],artista)
+        posicion=lt.isPresent(catalog["Obra"],artistas["ConstituentID"])
+        lt.addLast(artista["Artworks"],lt.getElement(catalog["Obra"],posicion))
 
 def addobra(catalog, obras):
         obra={"ObjectID":obras["ObjectID"],
@@ -111,36 +113,31 @@ def cmpArtworkByBeginDate (date1, date2):
 
 #REQ. 2: listar cronológicamente las adquisiciones 
 def addartworkyear(catalog, fecha1,fecha2):
-    date=dt.date.fromisoformat(catalog["Obra"]["DateAcquired"])
-    if date>= fecha1 and date<=fecha2:
-        if catalog["Obra"]["ConstituentID"] == catalog["Artista"]["ConstituentID"]:
-            artist=catalog["Artista"]["DisplayName"]
-        artworksinrange={"ObjectID":catalog["Obra"]["ObjectID"],
-          "Title": catalog["Obra"] ["Title"],
-          "ConstituentID": catalog["Obra"] ["ConstituentID"],
-          "Date": catalog["Obra"]["Date"],
-          "Medium": catalog["Obra"]["Medium"],
-          "CreditLine": catalog["Obra"]["CreditLine"],
-          "Department": catalog["Obra"]["Department"],
-          "DateAcquired": catalog["Obra"]["DateAcquired"],
-          "Artist":artist
-        lt.addLast(catalog["artworkyear"],artworksinrange)
+    artworksinrange=lt.newList("ARRAY_LIST")
+    i=1
+    while i<= lt.size(catalog["Obra"]):
+        obra=lt.getElement(catalog["Obra"],i)
+        enfecha=dt.date.fromisoformat(obra["DateAcquired"])
+        if enfecha>= fecha1 and enfecha<= fecha2:
+            lt.addLast(artworksinrange, obra)
+    sortlist=sortdate(artworksinrange)
+    return sortlist
 
   #encontrar obras compradas
   #get element
 def purchaseart (listaordenada2):
-
     i=1
     n=0
     while i<=lt.size(listaordenada2):
+        obra=lt.getElement(listaordenada2,i)
         i+=1
-        if listaordenada2["CreditLine"]=="Purchase":
+        if obra["CreditLine"]=="Purchase":
             n+=1
     return n
     
   # Funciones de ordenamiento
-def sortdate (catalog):
-    sub_list = lt.subList(catalog["artworkyear"], 1,lt.size(catalog["artworkyear"]) )
+def sortdate (artworksinrange):
+    sub_list = lt.subList(artworksinrange, 1,lt.size(artworksinrange))
     sub_list = sub_list.copy()
     sorted_list=mg.sort(sub_list, cmpArtworkByDateAcquired)
     return sorted_list
