@@ -73,7 +73,7 @@ while True:
         print("Cargando archivos ....")
         lista1=controller.addartistyear(catalog, año1, año2)
         nartistas=lt.size(lista1)
-        print("El número total de artistas en dicho rango es de: "+ str(nartistas)+"los 3 primeros artistas del rango cronológico (nombre, año de nacimiento, año de fallecimiento, nacionalidad y género) son: ")
+        print("El número total de artistas en dicho rango es de: "+ str(nartistas)+", los 3 primeros artistas del rango cronológico (nombre, año de nacimiento, año de fallecimiento, nacionalidad y género) son: ")
         tresfirst1=(lt.getElement(lista1,1),lt.getElement(lista1,2),lt.getElement(lista1,3))
         for artistaF in tresfirst1:
             print(artistaF["DisplayName"], artistaF["BeginDate"], artistaF["EndDate"], artistaF["Nationality"], artistaF["Gender"])
@@ -89,12 +89,19 @@ while True:
         print("Cargando archivos ....")
         lista2= controller.addartworkyear(catalog, fecha1, fecha2)
         Nobrascompra=controller.purchaseart(lista2)
-        print("El número total de obras en el rango cronológico es de: ")
-        tresfirst2= (lt.getElement(listaordenada2,1))["Title"] ,(lt.getElement(listaordenada2,2))["Title"],(lt.getElement(listaordenada2,3))["Title"]
-        treslast2=(lt.getElement(listaordenada2,Nobraslista))["Title"] ,(lt.getElement(listaordenada2,Nobraslista-1))["Title"],(lt.getElement(listaordenada2,Nobraslista-2))["Title"]
+        tamaño=lt.size(lista2)
+        print("El número total de obras en el rango cronológico es de: "+ str(tamaño)+", El número total de obras adquiridas por compra es de "+str(Nobrascom0pra)+", La tres primeras obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son: ") 
+        tresfirst2= (lt.getElement(lista2,1),lt.getElement(lista2,2),lt.getElement(lista2,3))
+        for obraF in tresfirst2:
+            print(obraF["Title"], obraF["Artists"], obraF["Date"], obraF["Medium"], obraF["Dimensions"])
+        print(". La tres últimas obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son:" )
+        treslast2=(lt.getElement(lista2,tamaño),lt.getElement(lista2,tamaño-1),lt.getElement(lista2,tamaño-2))
+        for obraL in treslast2:
+            print(obraL["Title"], obraL["Artists"], obraL["Date"], obraL["Medium"], obraL["Dimensions"])
 
     elif int(inputs[0]== 3):
-        Name=
+        name=input("Ingrese el nombre del artista: ")
+        
 
     
     else:

@@ -25,6 +25,7 @@
  """
 
 
+from DISClib.DataStructures.arraylist import getElement
 import config as cf
 import datetime as dt
 import time as time
@@ -62,9 +63,10 @@ def addartista(catalog, artistas):
              "EndDate": artistas["EndDate"],
              "Gender": artistas["Gender"],
              "Artworks":lt.newList("ARRAY_LIST")}
-        lt.addLast(catalog["Artista"],artista)
-        posicion=lt.isPresent(catalog["Obra"],artistas["ConstituentID"])
+        print(artista)
+        posicion=int(lt.isPresent(catalog["Obra"],artista["ConstituentID"]))
         lt.addLast(artista["Artworks"],lt.getElement(catalog["Obra"],posicion))
+        lt.addLast(catalog["Artista"],artista)
 
 def addobra(catalog, obras):
         obra={"ObjectID":obras["ObjectID"],
@@ -124,7 +126,6 @@ def addartworkyear(catalog, fecha1,fecha2):
     return sortlist
 
   #encontrar obras compradas
-  #get element
 def purchaseart (listaordenada2):
     i=1
     n=0
@@ -149,6 +150,7 @@ def cmpArtworkByDateAcquired (obra1, obra2):
         fecha2= dt.date.fromisoformat(obra2["DateAcquired"])
         return fecha1<fecha2
 
+#REQ. 3: clasificar las obras de un artista por técnica (Individual)
 
 
 
