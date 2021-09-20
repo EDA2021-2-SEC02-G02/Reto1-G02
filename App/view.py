@@ -101,6 +101,12 @@ while True:
 
     elif int(inputs[0]== 3):
         name=input("Ingrese el nombre del artista: ")
+
+    elif int(inputs[0]== 4):
+    
+    elif int(inputs[0]== 5):
+        depto=input(")
+        hgvhbj
         
 
     
