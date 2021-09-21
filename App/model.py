@@ -25,7 +25,6 @@
  """
 
 
-from DISClib.DataStructures.arraylist import getElement
 import config as cf
 import datetime as dt
 import time as time
@@ -48,7 +47,7 @@ def newCatalog():
     catalog = {"Artista":None,
                  "Obra":None }
 
-    catalog['Artista']= lt.newList("ARRAY_LIST")
+    catalog['Artista']= lt.newList("ARRAY_LIST", cmpfunction=compareartworks)
     catalog["Obra"]=lt.newList("ARRAY_LIST")
 
 
@@ -64,11 +63,12 @@ def addartista(catalog, artistas):
              "Gender": artistas["Gender"],
              "Artworks":lt.newList("ARRAY_LIST")}
         lt.addLast(catalog["Artista"],artista)
+    
 
 def addobra(catalog, obras):
         obra={"ObjectID":obras["ObjectID"],
           "Title": obras ["Title"],
-          "ConstituentID": obras ["ConstituentID"],
+          "ConstituentID": obras ["ConstituentID"][1:-1],
           "Date": obras["Date"],
           "Medium": obras["Medium"],
           "Dimensions": obras["Dimensions"],
@@ -83,8 +83,18 @@ def addobra(catalog, obras):
 def addArtworkartist(catalog, IDartista, obra):
     artistas=catalog["Artista"]
     posicion=lt.isPresent(artistas, IDartista)
-    lt.addLast(obra,lt.getElement(artistas, posicion))
+    if posicion>0:
+      artista= lt.getElement(artistas, posicion)
+      lt.addLast(artista["Artworks"], obra)
 
+def compareartworks(ID,artistas):
+    if (ID in artistas["ConstituentID"]):
+      return 0
+    return -1
+
+#def cicloaddartist(catalog):
+ #  for artista in catalog["Artista"]:
+  #   artista["A"]
 
 # Funciones para creacion de datos  
 # REQ. 1: listar cronológicamente los artistas  
@@ -126,7 +136,7 @@ def addartworkyear(catalog, fecha1,fecha2):
     sortlist=sortdate(artworksinrange)
     return sortlist
 
-  #encontrar obras compradas
+  #encontrar nùmero de obras compradas
 def purchaseart (listaordenada2):
     i=1
     n=0
@@ -184,22 +194,22 @@ def tecnicarepetida(catalog, name):
            lt.addLast(listatecn, medio)
 
 #cómo hago para saber cual medio es que más se repite en la lista
-def encontrarrepetido(listamedium):
-  mayor=""
-  valor=0
-  for medio in listamedium:
-    if medio 
+#def encontrarrepetido(listamedium):
+ # mayor=""
+  #valor=0
+  #for medio in listamedium:
+   # if medio 
 
 #El listado de las obras de dicha técnica
 #Ya llegué a saber si esa obra tiene el medio repetido, pero cómo hago para saber su nombre, fecha, etc
-def listado(name, catalog, repetido):
-   lista=lt.newList("ARRAY_LIST")
-   artistas=catalog["Artista"]
-    for artista in artistas:
-      if name == artista["DisplayName"]:
-        artw=artista["Artworks"]
-        for artone in artw:
-          if artone ==repetido
+#def listado(name, catalog, repetido):
+ #  lista=lt.newList("ARRAY_LIST")
+  # artistas=catalog["Artista"]
+   #for artista in artistas:
+    #  if name == artista["DisplayName"]:
+     #   artw=artista["Artworks"]
+      #  for artone in artw:
+       #   if artone ==repetido
 
 
 #REQ. 5: transportar obras de un departamento
