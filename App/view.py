@@ -60,6 +60,7 @@ Menu principal
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
+#Carga de datos
     if int(inputs[0]) == 0:
         print("Cargando información de los archivos ....")
         catalog=inicializar_catalogo()
@@ -82,7 +83,7 @@ while True:
         for artistaL in treslast1:
             print(artistaL["DisplayName"], artistaL["BeginDate"], artistaL["EndDate"], artistaL["Nationality"], artistaL["Gender"])
 
- 
+ #Cómo hago para sacar los artistas de cada obra
     elif int(inputs[0]) == 2:
         fecha1= input("Ingrese la fecha inicial (AAAA MM DD): ")
         fecha2= input("Ingrese la fecha final (AAAA MM DD): ")
@@ -90,7 +91,7 @@ while True:
         lista2= controller.addartworkyear(catalog, fecha1, fecha2)
         Nobrascompra=controller.purchaseart(lista2)
         tamaño=lt.size(lista2)
-        print("El número total de obras en el rango cronológico es de: "+ str(tamaño)+", El número total de obras adquiridas por compra es de "+str(Nobrascom0pra)+", La tres primeras obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son: ") 
+        print("El número total de obras en el rango cronológico es de: "+ str(tamaño)+", El número total de obras adquiridas por compra es de "+str(Nobrascompra)+", La tres primeras obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son: ") 
         tresfirst2= (lt.getElement(lista2,1),lt.getElement(lista2,2),lt.getElement(lista2,3))
         for obraF in tresfirst2:
             print(obraF["Title"], obraF["Artists"], obraF["Date"], obraF["Medium"], obraF["Dimensions"])
@@ -99,14 +100,14 @@ while True:
         for obraL in treslast2:
             print(obraL["Title"], obraL["Artists"], obraL["Date"], obraL["Medium"], obraL["Dimensions"])
 
-    elif int(inputs[0]== 3):
-        name=input("Ingrese el nombre del artista: ")
+   #elif int(inputs[0]== 3):
+     #   name=input("Ingrese el nombre del artista: ")
 
-    elif int(inputs[0]== 4):
+    #elif int(inputs[0]== 4):
     
-    elif int(inputs[0]== 5):
-        depto=input(")
-        hgvhbj
+    #elif int(inputs[0]== 5):
+        #depto=input("Ingrese el departamento del museo que desea transportar: ")
+       
         
 
     

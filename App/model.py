@@ -63,9 +63,6 @@ def addartista(catalog, artistas):
              "EndDate": artistas["EndDate"],
              "Gender": artistas["Gender"],
              "Artworks":lt.newList("ARRAY_LIST")}
-        print(artista)
-        posicion=int(lt.isPresent(catalog["Obra"],artista["ConstituentID"]))
-        lt.addLast(artista["Artworks"],lt.getElement(catalog["Obra"],posicion))
         lt.addLast(catalog["Artista"],artista)
 
 def addobra(catalog, obras):
@@ -77,12 +74,16 @@ def addobra(catalog, obras):
           "Dimensions": obras["Dimensions"],
           "CreditLine": obras["CreditLine"],
           "Department": obras["Department"],
-          "DateAcquired": obras["DateAcquired"],
-          "Artists":lt.newList("ARRAY_LIST")}
+          "DateAcquired": obras["DateAcquired"]}
         lt.addLast(catalog["Obra"],obra)  
-        posición=lt.isPresent(catalog["Artista"],obras["ConstituenID"])
-        lt.addLast(obra["Artists"],lt.getElement(catalog["Artista"],posición))
-       
+        IDartista= obra["ConstituentID"].split(",")
+        for artista in IDartista:
+            addArtworkartist(catalog, artista, obra)
+      
+def addArtworkartist(catalog, IDartista, obra):
+    artistas=catalog["Artista"]
+    posicion=lt.isPresent(artistas, IDartista)
+    lt.addLast(obra,lt.getElement(artistas, posicion))
 
 
 # Funciones para creacion de datos  
@@ -151,16 +152,77 @@ def cmpArtworkByDateAcquired (obra1, obra2):
         return fecha1<fecha2
 
 #REQ. 3: clasificar las obras de un artista por técnica (Individual)
+# Total de obras
+def totalobrasartista (catalog, name):
+    artistas=catalog["Artista"]
+    for artista in artistas:
+        if artista["DisplayName"] ==name:
+           tamaño=lt.size(artista["Artworks"])
+        return tamaño
+
+# Total técnicas (medios) utilizados.
+def totalmedium (catalog, name):
+    listamedium= lt.newList("ARRAY_LIST")
+    artistas=catalog["Artista"]
+    for artista in artistas:
+      if name == artista["DisplayName"]:
+        artw=artista["Artworks"]
+        for artone in artw:
+           medio=artone["Medium"]
+           if medio not in listamedium:
+             lt.addLast(listamedium,medio)
+      
+#La técnica mas utilizada
+def tecnicarepetida(catalog, name):
+    listatecn= lt.newList("ARRAY_LIST")
+    artistas=catalog["Artista"]
+    for artista in artistas:
+      if name == artista["DisplayName"]:
+        artw=artista["Artworks"]
+        for artone in artw:
+           medio=artone["Medium"]
+           lt.addLast(listatecn, medio)
+
+#cómo hago para saber cual medio es que más se repite en la lista
+def encontrarrepetido(listamedium):
+  mayor=""
+  valor=0
+  for medio in listamedium:
+    if medio 
+
+#El listado de las obras de dicha técnica
+#Ya llegué a saber si esa obra tiene el medio repetido, pero cómo hago para saber su nombre, fecha, etc
+def listado(name, catalog, repetido):
+   lista=lt.newList("ARRAY_LIST")
+   artistas=catalog["Artista"]
+    for artista in artistas:
+      if name == artista["DisplayName"]:
+        artw=artista["Artworks"]
+        for artone in artw:
+          if artone ==repetido
+
+
+#REQ. 5: transportar obras de un departamento
+#Total de obras para transportar (size de esto)
+def totalobras(depto, catalog):
+   listaobras= lt.newList("ARRAY_LIST")
+   obras=catalog["Obra"]
+   for obra in obras:
+     if obra["Department"]==depto:
+       lt.addLast(listaobras,obra)
+
+#Estimado en USD del precio del servicio
+        
 
 
 
 
 
-# Funciones de consulta
-# REQ. 1: listar cronológicamente los artistas 
+
+   
 
 
 
-# Funciones utilizadas para comparar elementos dentro de una lista
 
-# Funciones de ordenamiento
+
+
