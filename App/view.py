@@ -21,6 +21,7 @@
  """
 
 
+from App.controller import totalmedium
 import config as cf
 import sys
 import controller
@@ -60,6 +61,7 @@ Menu principal
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
+
 #Carga de datos
     if int(inputs[0]) == 0:
         print("Cargando información de los archivos ....")
@@ -95,21 +97,35 @@ while True:
         tresfirst2= (lt.getElement(lista2,1),lt.getElement(lista2,2),lt.getElement(lista2,3))
         for obraF in tresfirst2:
             print(obraF["Title"], obraF["Artists"], obraF["Date"], obraF["Medium"], obraF["Dimensions"])
-        print(". La tres últimas obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son:" )
+        print(". La tres últimas obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son: " )
         treslast2=(lt.getElement(lista2,tamaño),lt.getElement(lista2,tamaño-1),lt.getElement(lista2,tamaño-2))
         for obraL in treslast2:
             print(obraL["Title"], obraL["Artists"], obraL["Date"], obraL["Medium"], obraL["Dimensions"])
 
-   #elif int(inputs[0]== 3):
-     #   name=input("Ingrese el nombre del artista: ")
+    elif int(inputs[0]== 3):
+       name=input("Ingrese el nombre del artista: ")
+       totalobras=controller.totalobrasartista(catalog, name)
+       totalmedio=lt.size(controller.totalmedium(catalog, name))
+       print("El total de obras del artista "+name+"es de: "+str(totalobras)+", el total de técnicas utilizadas por el artista es de: "+str(totalmedium) )
+
+
 
     #elif int(inputs[0]== 4):
-    
-    #elif int(inputs[0]== 5):
-        #depto=input("Ingrese el departamento del museo que desea transportar: ")
-       
-        
 
+    
+    #Cómo incluyo el precio y los artistas?
+    elif int(inputs[0]== 5):
+       depto=input("Ingrese el departamento del museo que desea transportar: ")
+       listaobras=controller.totalobras(catalog, depto)
+       obrastransport=lt.size(listaobras)
+       price=controller.price(listaobras)
+       weight=controller.weight(listaobras)
+       print("El total de obras para transportar es de: "+str(obrastransport)+", el Estimado en USD del precio del servicio es de: "+str(price)+" y el peso estimado de las obras es de: "+str(weight))
+       oldest=controller.oldest(listaobras)
+       fiveoldest=(lt.getElement(oldest,1),lt.getElement(oldest,2), lt.getElement(oldest,3), lt.getElement(oldest,4), lt.getElement(oldest,5))
+       print(". Las 5 obras más antiguas a transportar son (Título, artista(s), clasificación, fecha de la obra, medio, dimensiones, costo asociado al transporte): ")
+       for obra in fiveoldest:
+           print(obra["Title"], obra["Artists"], obra["Classification"], obra["Date"], obra["Medium"], obra["Dimensions"], obra[""])
     
     else:
         sys.exit(0)

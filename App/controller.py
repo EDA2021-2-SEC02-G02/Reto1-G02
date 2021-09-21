@@ -61,7 +61,25 @@ def addartistyear(catalog, año1, año2):
 def addartworkyear(catalog, fecha1, fecha2):
     return model.addartworkyear(catalog, fecha1, fecha2)
 
-def purchaseart(listaordenada2):
-    return model.purshaseart(listaordenada2)
+def purchaseart(lista2):
+    return model.purshaseart(lista2)
 
-# Funciones de consulta sobre el catálogo
+#REQ. 3: clasificar las obras de un artista por técnica (Individual)
+def totalobrasartista (catalog, name):
+    return model.totalobrasartista(catalog, name)
+
+def totalmedium(catalog, name):
+    return model.totalmedium(catalog, name)
+
+#REQ. 5: transportar obras de un departamento
+def totalobras(catalog, depto):
+    return model.totalobras(catalog, depto)
+
+def price(listaobras):
+    return model.price(listaobras)
+
+def weight(listaobras):
+    return model.weight(listaobras)
+
+def oldest(listaobras):
+    return model.oldest(listaobras)

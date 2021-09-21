@@ -73,8 +73,10 @@ def addobra(catalog, obras):
           "Medium": obras["Medium"],
           "Dimensions": obras["Dimensions"],
           "CreditLine": obras["CreditLine"],
+          "Classification": obras["Classification"],
           "Department": obras["Department"],
-          "DateAcquired": obras["DateAcquired"]}
+          "DateAcquired": obras["DateAcquired"],
+          "Weight":obras["Weight"]}
         lt.addLast(catalog["Obra"],obra)  
         IDartista= obra["ConstituentID"].split(",")
         for artista in IDartista:
@@ -92,9 +94,6 @@ def compareartworks(ID,artistas):
       return 0
     return -1
 
-#def cicloaddartist(catalog):
- #  for artista in catalog["Artista"]:
-  #   artista["A"]
 
 # Funciones para creacion de datos  
 # REQ. 1: listar cronológicamente los artistas  
@@ -136,7 +135,7 @@ def addartworkyear(catalog, fecha1,fecha2):
     sortlist=sortdate(artworksinrange)
     return sortlist
 
-  #encontrar nùmero de obras compradas
+  #encontrar número de obras compradas
 def purchaseart (listaordenada2):
     i=1
     n=0
@@ -194,36 +193,64 @@ def tecnicarepetida(catalog, name):
            lt.addLast(listatecn, medio)
 
 #cómo hago para saber cual medio es que más se repite en la lista
-#def encontrarrepetido(listamedium):
- # mayor=""
-  #valor=0
-  #for medio in listamedium:
-   # if medio 
+def encontrarrepetido(listamedium):
+  mayor=""
+  valor=0
+  for medio in listamedium:
+    if medio 
 
 #El listado de las obras de dicha técnica
 #Ya llegué a saber si esa obra tiene el medio repetido, pero cómo hago para saber su nombre, fecha, etc
-#def listado(name, catalog, repetido):
- #  lista=lt.newList("ARRAY_LIST")
-  # artistas=catalog["Artista"]
-   #for artista in artistas:
-    #  if name == artista["DisplayName"]:
-     #   artw=artista["Artworks"]
-      #  for artone in artw:
-       #   if artone ==repetido
+def listado(name, catalog, repetido):
+   lista=lt.newList("ARRAY_LIST")
+   artistas=catalog["Artista"]
+   for artista in artistas:
+      if name == artista["DisplayName"]:
+        artw=artista["Artworks"]
+        for artone in artw:
+          if artone ==repetido
 
 
 #REQ. 5: transportar obras de un departamento
 #Total de obras para transportar (size de esto)
-def totalobras(depto, catalog):
+def totalobras(catalog, depto):
    listaobras= lt.newList("ARRAY_LIST")
    obras=catalog["Obra"]
    for obra in obras:
      if obra["Department"]==depto:
        lt.addLast(listaobras,obra)
+   return listaobras
 
 #Estimado en USD del precio del servicio
-        
+#Cómo hago para obtener las dimendiones
+def price (listaobras):
+  costototal=0
+  for obra in listaobras:
+     medida=int(obra["Dimensions"])
+     if medida ==0:
+        costo=48
+     else:
+        costo=(medida/100)*72
+     costototal+=costo
+    
+def weight (listaobras):
+  pesototal=0
+  for obra in listaobras:
+    peso=int(obra["Weight"])
+    pesototal+=peso
+  return pesototal
 
+def oldest(listaobras):
+  sub_list = lt.subList(listaobras, 1,lt.size(listaobras))
+  sub_list = sub_list.copy()
+  sorted_list=mg.sort(sub_list, cmpArtworkByDate)
+  return sorted_list
+
+def cmpArtworkByDate(obra1, obra2):
+   if obra1["Date"]!= "" and obra2["Date"]!= "":
+        fecha1= dt.date.fromisoformat(obra1["Date"])
+        fecha2= dt.date.fromisoformat(obra2["Date"])
+        return fecha1>fecha2 
 
 
 
