@@ -21,7 +21,7 @@
  """
 
 
-from App.controller import totalmedium
+
 import config as cf
 import sys
 import controller
@@ -73,10 +73,11 @@ while True:
     elif int(inputs[0]) == 1:
         año1= int(input("Ingrese el año inicial del que desea organizar los artistas: "))
         año2= int(input("Ingrese el año final del que desea organizar los artistas: "))
-        print("Cargando archivos ....")
+        print("Buscando....")
         lista1=controller.addartistyear(catalog, año1, año2)
         nartistas=lt.size(lista1)
         print("El número total de artistas en dicho rango es de: "+ str(nartistas)+", los 3 primeros artistas del rango cronológico (nombre, año de nacimiento, año de fallecimiento, nacionalidad y género) son: ")
+        #if
         tresfirst1=(lt.getElement(lista1,1),lt.getElement(lista1,2),lt.getElement(lista1,3))
         for artistaF in tresfirst1:
             print(artistaF["DisplayName"], artistaF["BeginDate"], artistaF["EndDate"], artistaF["Nationality"], artistaF["Gender"])
@@ -85,22 +86,28 @@ while True:
         for artistaL in treslast1:
             print(artistaL["DisplayName"], artistaL["BeginDate"], artistaL["EndDate"], artistaL["Nationality"], artistaL["Gender"])
 
- #Cómo hago para sacar los artistas de cada obra
+#solo nombre
     elif int(inputs[0]) == 2:
         fecha1= input("Ingrese la fecha inicial (AAAA MM DD): ")
         fecha2= input("Ingrese la fecha final (AAAA MM DD): ")
-        print("Cargando archivos ....")
+        print("Creando lista ....")
         lista2= controller.addartworkyear(catalog, fecha1, fecha2)
         Nobrascompra=controller.purchaseart(lista2)
         tamaño=lt.size(lista2)
         print("El número total de obras en el rango cronológico es de: "+ str(tamaño)+", El número total de obras adquiridas por compra es de "+str(Nobrascompra)+", La tres primeras obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son: ") 
         tresfirst2= (lt.getElement(lista2,1),lt.getElement(lista2,2),lt.getElement(lista2,3))
         for obraF in tresfirst2:
-            print(obraF["Title"], obraF["Artists"], obraF["Date"], obraF["Medium"], obraF["Dimensions"])
-        print(". La tres últimas obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son: " )
+            print(obraF["Title"], obraF["Date"], obraF["Medium"], obraF["Dimensions"])
+            print("Los artistas de la obra son: ")
+            for artist in lt.iterator(obraF["Artists"]):
+                print(artist["DisplayName"])
+        #print(". La tres últimas obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son: " )
         treslast2=(lt.getElement(lista2,tamaño),lt.getElement(lista2,tamaño-1),lt.getElement(lista2,tamaño-2))
         for obraL in treslast2:
-            print(obraL["Title"], obraL["Artists"], obraL["Date"], obraL["Medium"], obraL["Dimensions"])
+            print(obraL["Title"],  obraL["Date"], obraL["Medium"], obraL["Dimensions"])
+            print("Los artistas de la obra son: ")
+            for artist in lt.iterator(obraF["Artists"]):
+                print(artist["DisplayName"])
 
     elif int(inputs[0]== 3):
        name=input("Ingrese el nombre del artista: ")
@@ -112,7 +119,7 @@ while True:
 
     #elif int(inputs[0]== 4):
 
-    
+
     #Cómo incluyo el precio y los artistas?
     elif int(inputs[0]== 5):
        depto=input("Ingrese el departamento del museo que desea transportar: ")

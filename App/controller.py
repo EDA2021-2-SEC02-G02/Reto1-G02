@@ -62,7 +62,7 @@ def addartworkyear(catalog, fecha1, fecha2):
     return model.addartworkyear(catalog, fecha1, fecha2)
 
 def purchaseart(lista2):
-    return model.purshaseart(lista2)
+    return model.purchaseart(lista2)
 
 #REQ. 3: clasificar las obras de un artista por técnica (Individual)
 def totalobrasartista (catalog, name):

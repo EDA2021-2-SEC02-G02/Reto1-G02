@@ -57,7 +57,7 @@ def newCatalog():
 def addartista(catalog, artistas):
         artista={"ConstituentID": artistas["ConstituentID"],
              "DisplayName": artistas["DisplayName"],
-             "Nacionality": artistas["Gender"],
+             "Nationality": artistas["Nationality"],
              "BeginDate":artistas["BeginDate"],
              "EndDate": artistas["EndDate"],
              "Gender": artistas["Gender"],
@@ -76,7 +76,8 @@ def addobra(catalog, obras):
           "Classification": obras["Classification"],
           "Department": obras["Department"],
           "DateAcquired": obras["DateAcquired"],
-          "Weight":obras["Weight"]}
+          "Weight":obras["Weight (kg)"],
+          "Artists":lt.newList("ARRAY_LIST")}
         lt.addLast(catalog["Obra"],obra)  
         IDartista= obra["ConstituentID"].split(",")
         for artista in IDartista:
@@ -88,6 +89,7 @@ def addArtworkartist(catalog, IDartista, obra):
     if posicion>0:
       artista= lt.getElement(artistas, posicion)
       lt.addLast(artista["Artworks"], obra)
+      lt.addLast(obra["Artists"], artista)
 
 def compareartworks(ID,artistas):
     if (ID in artistas["ConstituentID"]):
@@ -105,14 +107,13 @@ def addartistyear(catalog, año1, año2):
         artista=lt.getElement(catalog["Artista"],i)
         if int(artista["BeginDate"])>= año1 and int(artista["BeginDate"])<=año2:
             lt.addLast(artistsinrange, artista)
+        i+=1
     sortedlist=sortyear(artistsinrange)
     return sortedlist
 
   # Funciones de ordenamiento
 def sortyear (artistsinrange):
-        sub_list = lt.subList(artistsinrange, 1, lt.size(artistsinrange))
-        sub_list = sub_list.copy()
-        sorted_list=mg.sort(sub_list, cmpArtworkByBeginDate)
+        sorted_list=mg.sort(artistsinrange, cmpArtworkByBeginDate)
         return sorted_list
 
   # Funciones utilizadas para comparar elementos dentro de una lista
@@ -125,13 +126,17 @@ def cmpArtworkByBeginDate (date1, date2):
 
 #REQ. 2: listar cronológicamente las adquisiciones 
 def addartworkyear(catalog, fecha1,fecha2):
+    fecha1=dt.date.fromisoformat(fecha1)
+    fecha2=dt.date.fromisoformat(fecha2)
     artworksinrange=lt.newList("ARRAY_LIST")
     i=1
     while i<= lt.size(catalog["Obra"]):
         obra=lt.getElement(catalog["Obra"],i)
-        enfecha=dt.date.fromisoformat(obra["DateAcquired"])
-        if enfecha>= fecha1 and enfecha<= fecha2:
-            lt.addLast(artworksinrange, obra)
+        if obra["DateAcquired"]!="":
+           enfecha=dt.date.fromisoformat(obra["DateAcquired"])
+           if enfecha>= fecha1 and enfecha<= fecha2:
+               lt.addLast(artworksinrange, obra)
+        i+=1
     sortlist=sortdate(artworksinrange)
     return sortlist
 
@@ -148,9 +153,7 @@ def purchaseart (listaordenada2):
     
   # Funciones de ordenamiento
 def sortdate (artworksinrange):
-    sub_list = lt.subList(artworksinrange, 1,lt.size(artworksinrange))
-    sub_list = sub_list.copy()
-    sorted_list=mg.sort(sub_list, cmpArtworkByDateAcquired)
+    sorted_list=mg.sort(artworksinrange, cmpArtworkByDateAcquired)
     return sorted_list
 
   # Funciones utilizadas para comparar elementos dentro de una lista
@@ -163,11 +166,35 @@ def cmpArtworkByDateAcquired (obra1, obra2):
 #REQ. 3: clasificar las obras de un artista por técnica (Individual)
 # Total de obras
 def totalobrasartista (catalog, name):
-    artistas=catalog["Artista"]
-    for artista in artistas:
-        if artista["DisplayName"] ==name:
-           tamaño=lt.size(artista["Artworks"])
-        return tamaño
+    tecnicas=lt.newList("ARRAY_LIST")
+    i=1
+    while i<= lt.size(catalog["Artista"]):
+        artista=lt.getElement(catalog["Artista"],i)
+        if artista["DisplayName"]== name:
+            obras=artista["Artworks"]
+
+def totalmedios(obras):
+    j=1
+    while j <=lt.size(obras):
+      obra=lt.getElement(obras,j)
+              tecnica=obra["Medium"]
+              posicion=lt.isPresent(tecnicas,tecnica)
+              if posicion>0:
+                 tec=lt.getElement(tecnicas, posicion)
+                 tec["valor"]+=1
+              else:
+                tec={"Nombre":tecnica,"valor":1}
+                lt.addLast(tecnicas, tec)
+              j+=1
+      i+=1
+    sortedlist=sorttecnicas(tecnicas)
+    return sortedlist
+
+def sorttecnicas(tecnicas):
+   sortedlist=mg.sort(tecnicas, cmptecnicas)
+   return sortedlist
+
+def cmptecnicas(tecnica, )       
 
 # Total técnicas (medios) utilizados.
 def totalmedium (catalog, name):
@@ -193,22 +220,22 @@ def tecnicarepetida(catalog, name):
            lt.addLast(listatecn, medio)
 
 #cómo hago para saber cual medio es que más se repite en la lista
-def encontrarrepetido(listamedium):
-  mayor=""
-  valor=0
-  for medio in listamedium:
-    if medio 
+#def encontrarrepetido(listamedium):
+ # mayor=""
+  #valor=0
+  #for medio in listamedium:
+   # if medio 
 
 #El listado de las obras de dicha técnica
 #Ya llegué a saber si esa obra tiene el medio repetido, pero cómo hago para saber su nombre, fecha, etc
-def listado(name, catalog, repetido):
-   lista=lt.newList("ARRAY_LIST")
-   artistas=catalog["Artista"]
-   for artista in artistas:
-      if name == artista["DisplayName"]:
-        artw=artista["Artworks"]
-        for artone in artw:
-          if artone ==repetido
+#def listado(name, catalog, repetido):
+ #  lista=lt.newList("ARRAY_LIST")
+  # artistas=catalog["Artista"]
+   #for artista in artistas:
+    #  if name == artista["DisplayName"]:
+     #   artw=artista["Artworks"]
+      #  for artone in artw:
+          #if artone ==repetido
 
 
 #REQ. 5: transportar obras de un departamento
