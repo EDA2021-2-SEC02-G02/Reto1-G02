@@ -120,11 +120,14 @@ while True:
            listadotec=controller.obrastecnica(nombretec,totalobras)
            print("El total de las obras del artista "+name+" es de: "+str(totalo))
            print("El total de tecnicas utilizadas es de: "+str(totalm))
-           print("La técnica más utilizada por el artista es: "+str(nombretec))
+           print("La técnica más utilizada por el artista es: ")
+           cincofirst=(lt.getElement(totalmedio,1), lt.getElement(totalmedio,2), lt.getElement(totalmedio,3), lt.getElement(totalmedio,4), lt.getElement(totalmedio,5))
+           for medium in cincofirst:
+               print (medium["Nombre"],medium["valor"])           
            print("El listado de las obras de dicha técnica es: ")
-           tresfirst=(lt.getElement(totalmedio,1), lt.getElement(totalmedio,2), lt.getElement(totalmedio,3))
-           for obra in lt.iterator(tresfirst):
-              print("Titulo: "+obra["Title"]+", Fecha: "+obra["Date"]+" Medio: "+obra["Medium"]+", Dimensiones: "+obra["Dimensions"])
+           tresfirst=(lt.getElement(listadotec,1), lt.getElement(listadotec,2), lt.getElement(listadotec,3))
+           for obra in tresfirst:
+              print(obra["Title"],obra["Date"],obra["Medium"],obra["Dimensions"])
 
 
        

@@ -224,6 +224,51 @@ def obrastecnica(nombre,obras):
       lt.addLast(listaobras,obra)
   return listaobras
     
+#REQ. 4:clasificar las obras por la nacionalidad de sus creadores
+
+def tomar (n, iterable):
+  return list(islice(iterable,n))
+
+def obrasRecurrentes (catalog , top):
+  id = catalog["Artista"]
+  lista= lt.newList(datastructure= "ARRAY_LIST")
+
+  for artist in id.values():
+    nacionalidad = artist["Nacionalidad"]
+    if nacionalidad == top:
+      for artwork in lt.iterator(artist["artworks"]):
+        lt.addLast(lista, artwork)
+  return lista
+
+def diezNacionalidades (catalog):
+  diccionario = {}
+  identificacion = catalog["Artista"]
+
+  for artist in identificacion.values():
+    tamaño= lt.size(artist["artworks"])
+    nacionalidad= artist["nacionalidad"]
+
+    if nacionalidad != "" or nacionalidad != "Nationality unknown":
+      if nacionalidad not in diccionario.keys():
+        diccionario[nacionalidad]= tamaño
+      else:
+        diccionario[nacionalidad]+= tamaño
+
+  organizado= dict(sorted(diccionario.items(),key=lambda item:item[1], reverse= True))
+
+  nacionalidades= tomar(100, organizado.items())
+  primera= nacionalidades[0][0]
+  lista= obrasRecurrentes(catalog, primera)
+    
+  return nacionalidades, lista
+
+def obrastecnica(nombre,obras):
+  listaobras=lt.newList("ARRAY_LIST")
+  for obra in lt.iterator(obras):
+    if obra["Medium"]==nombre:
+      lt.addLast(listaobras,obra)
+  return listaobras
+
 
 #REQ. 5: transportar obras de un departamento
 #Total de obras para transportar (size de esto)
@@ -236,20 +281,45 @@ def totalobras(catalog, depto):
    return listaobras
 
 #Estimado en USD del precio del servicio
-#def price (listaobras):
-   # kgprice=0
-   # m2price=0
-    #m3price=0
-    #totalprice=0
-    #totalweight=0
-    #costo=72
-    #for obra in listaobras:
-     #  weight=obra["Weight (kg)"]
-      # diameter=obra["Diameter (cm)"]
-       #circumference=obra["Circumference (cm)"]
-    #   length=obra["Length (cm)"]
-     #  height=obra["Height (cm)"]
-     #  width=obra["Width (cm)"]
-      # depth=obra["Depth (cm)"]
-      # if weight !="":
-      
+def price (listaobras):
+    kgprice=0
+    m2price=0
+    m3price=0
+    totalprice=0
+    totalweight=0
+    costo=72
+    for obra in listaobras:
+       weight=obra["Weight (kg)"]
+       diameter=obra["Diameter (cm)"]
+       circumference=obra["Circumference (cm)"]
+       length=obra["Length (cm)"]
+       height=obra["Height (cm)"]
+       width=obra["Width (cm)"]
+       depth=obra["Depth (cm)"]
+       if weight !="" :
+         kgprice=float(weight)*costo
+         totalweight+=float(weight)
+       if height!= "" and width!= "":
+         m2price=(float(height)/100)*float(width/100)*costo
+       if height!= "" and length!= "":
+         m2price=float(height)/100*float(length/100)*costo
+       if height!= "" and depth!= "":
+         m2price=float(height)/100
+       if length!= "" and width != "":
+         m2price= float(length/100)*float(width/100)*costo
+       if depth!="" and width!="":
+         m2price= float(depth/100)*float(width/100)*costo
+       if diameter !="":
+         m2price=3.1416*(float((diameter/2)/100)**2)*costo
+       if circumference!="":
+         m2price= 3.1416*(float(((circumference/100)/(2*3.1416))**2))*costo
+       if length!="" and width != "" and depth != "":
+         m3price=float(height/100)*float(width/100)*float (depth/100)*costo
+       if height!="" and diameter!= "":
+         m3price=3.1416*(float((diameter/2)/100)**2)*float(height)*costo
+       lastprice= max(kgprice,m3price,m2price)
+       if lastprice==0:
+         lastprice=48
+       totalprice+=lastprice
+
+    
