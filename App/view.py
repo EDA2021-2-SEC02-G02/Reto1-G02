@@ -44,7 +44,6 @@ def printMenu():
     print("3- Clasificar obras de un artista por técnica")
     print("4- Clasificar las obras por nacionalidad de sus creadores")
     print("5- Transportar obras de un departamento")
-    
 
 
 def inicializar_catalogo():
@@ -65,10 +64,11 @@ while True:
 #Carga de datos
     if int(inputs[0]) == 0:
         print("Cargando información de los archivos ....")
-        catalog=inicializar_catalogo()
+        catalog, time=inicializar_catalogo()
         cargarinfo(catalog)
         print("Artistas cargados "+str(lt.size(catalog["Artista"])))
         print("Obras cargadas "+str(lt.size(catalog["Obra"])))
+        print(time)
 
     elif int(inputs[0]) == 1:
         año1= int(input("Ingrese el año inicial del que desea organizar los artistas: "))
@@ -176,29 +176,33 @@ while True:
        print("El total de obras para transportar es de: "+str(totalobr))
        print("El estimado en USD del precio del servicio es de: "+str(precio))
        print("El peso estimado de las obras a transportar es de: "+str(weight))
-       oldest=controller.oldest(listaobras)
+       oldest=controller.oldest(price[1])
        listacaras=price[1]
        fiveoldest=(lt.getElement(oldest,1),lt.getElement(oldest,2), lt.getElement(oldest,3), lt.getElement(oldest,4), lt.getElement(oldest,5))
        print("Las 5 obras más antiguas a transportar son: ")
        for obra in fiveoldest:
-           print("Titulo: "+obra["Title"]+
-                 ". Artita(s): "+obra["Artists"]+
+            print("Titulo: "+obra["Title"]+
                  ". Clasificación: " +obra["Classification"]+
                  ". Fecha: " +obra["Date"]+
                  ". Medio: " +obra["Medium"]+
                  ". Dimensiones: " +obra["Dimensions"]+ 
-                 ". Costo asociado al transporte: "+obra["Price"])
+                 ". Costo asociado al transporte: "+str(obra["Price"]))
+            print("El/los artista(s) de la obra son: ")
+            for artist in lt.iterator(obra["Artists"]):
+                print(artist["DisplayName"])
        listaexpensive=controller.expensive(listacaras)
        fiveexpensive=(lt.getElement(listaexpensive,1), lt.getElement(listaexpensive,2),lt.getElement(listaexpensive,3), lt.getElement(listaexpensive,4), lt.getElement(listaexpensive,5))
        print("Las 5 obras más antiguas a transportar son :" )
        for obra in fiveexpensive:
             print("Titulo: "+obra["Title"]+
-                 ". Artita(s): "+obra["Artists"]+
                  ". Clasificación: " +obra["Classification"]+
                  ". Fecha: " +obra["Date"]+
                  ". Medio: " +obra["Medium"]+
                  ". Dimensiones: " +obra["Dimensions"]+ 
-                 ". Costo asociado al transporte: "+obra["Price"])
+                 ". Costo asociado al transporte: "+str(obra["Price"]))
+            print("El/los artista(s) de la obra son: ")
+            for artist in lt.iterator(obra["Artists"]):
+                print(artist["DisplayName"])
 
     
     else:

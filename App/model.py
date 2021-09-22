@@ -44,15 +44,16 @@ los mismos.
 
 # Construccion de modelos
 def newCatalog():
-    
+    start_time=time.process_time()
     catalog = {"Artista":None,
                  "Obra":None }
 
     catalog['Artista']= lt.newList("ARRAY_LIST", cmpfunction=compareartworks)
     catalog["Obra"]=lt.newList("ARRAY_LIST")
-
-
-    return catalog
+    
+    stop_time= time.process_time()
+    elapsed_time_mseg=(stop_time - start_time)*1000
+    return catalog, elapsed_time_mseg
 
 # Funciones para agregar informacion al catalogo
 def addartista(catalog, artistas):
@@ -275,6 +276,7 @@ def obrastecnica(nombre,obras):
     if obra["Medium"]==nombre:
       lt.addLast(listaobras,obra)
   return listaobras
+  
 
 
 #REQ. 5: transportar obras de un departamento
@@ -282,34 +284,34 @@ def obrastecnica(nombre,obras):
 def totalobras(catalog, depto):
    listaobras= lt.newList("ARRAY_LIST")
    obras=catalog["Obra"]
-   for obra in obras:
+   for obra in lt.iterator(obras):
      if obra["Department"]==depto:
        lt.addLast(listaobras,obra)
    return listaobras
 
 #Estimado en USD del precio del servicio
 def price (listaobras):
-    kgprice=0
-    m2price1=0
-    m2price2=0
-    m2price3=0
-    m2price4=0
-    m2price5=0
-    m2price6=0
-    m2price7=0
-    m2price8=0
-    m2price9=0
-    m3price1=0
-    m3price2=0
-    m3price3=0
-    m3price4=0
-    m3price5=0
-    m3price6=0
-    m3price7=0
-    m3price8=0
     totalprice=0
     costo=72
-    for obra in listaobras:
+    for obra in lt.iterator(listaobras):
+       kgprice=0
+       m2price1=0
+       m2price2=0
+       m2price3=0
+       m2price4=0
+       m2price5=0
+       m2price6=0
+       m2price7=0
+       m2price8=0
+       m2price9=0
+       m3price1=0
+       m3price2=0
+       m3price3=0
+       m3price4=0
+       m3price5=0
+       m3price6=0
+       m3price7=0
+       m3price8=0
        weight=obra["Weight"]
        diameter=obra["Diameter"]
        circumference=obra["Circumference"]
@@ -362,8 +364,13 @@ def price (listaobras):
 #Peso estimado de las obras
 def weight (listaobras):
   peso=0
-  for obra in listaobras:
-    peso+=float(obra["Weight"])
+  for obra in lt.iterator(listaobras):
+    pes=obra["Weight"]
+    if pes== "":
+      peso+=0
+    else:
+      pesinfloat=float(pes)
+      peso+=pesinfloat
   return peso
 
 #Obras viejas
@@ -372,13 +379,13 @@ def oldest (listaobras):
   return sortedlist
 
 def sortviejas (listaobras):
-  sorted_lsit=mg.sort(listaobras, cmpmasvieja)
-  return sorted_lsit
+  sorted_list=mg.sort(listaobras, cmpmasvieja)
+  return sorted_list
 
 def cmpmasvieja(fecha1, fecha2):
   if fecha1["Date"]!="" and fecha2["Date"]!="":
-    date1=dt.date.fromisoformat(fecha1)
-    date2=dt.date.fromisoformat(fecha2)
+    date1=int(fecha1["Date"])
+    date2=int(fecha2["Date"])
     return date1>date2
 
 #mas costosas
