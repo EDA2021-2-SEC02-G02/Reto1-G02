@@ -76,7 +76,13 @@ def addobra(catalog, obras):
           "Classification": obras["Classification"],
           "Department": obras["Department"],
           "DateAcquired": obras["DateAcquired"],
+          "Circumference": obras["Circumference (cm)"],
+          "Depth": obras["Depth (cm)"],
+          "Diameter": obras["Diameter (cm)"],
+          "Height": obras["Height (cm)"],
+          "Length": obras["Length (cm)"],
           "Weight":obras["Weight (kg)"],
+          "Width": obras["Width (cm)"],
           "Artists":lt.newList("ARRAY_LIST")}
         lt.addLast(catalog["Obra"],obra)  
         IDartista= obra["ConstituentID"].split(",")
@@ -146,9 +152,9 @@ def purchaseart (listaordenada2):
     n=0
     while i<=lt.size(listaordenada2):
         obra=lt.getElement(listaordenada2,i)
-        i+=1
         if obra["CreditLine"]=="Purchase":
             n+=1
+        i+=1
     return n
     
   # Funciones de ordenamiento
@@ -283,43 +289,112 @@ def totalobras(catalog, depto):
 #Estimado en USD del precio del servicio
 def price (listaobras):
     kgprice=0
-    m2price=0
-    m3price=0
+    m2price1=0
+    m2price2=0
+    m2price3=0
+    m2price4=0
+    m2price5=0
+    m2price6=0
+    m2price7=0
+    m2price8=0
+    m2price9=0
+    m3price1=0
+    m3price2=0
+    m3price3=0
+    m3price4=0
+    m3price5=0
+    m3price6=0
+    m3price7=0
+    m3price8=0
     totalprice=0
-    totalweight=0
     costo=72
     for obra in listaobras:
-       weight=obra["Weight (kg)"]
-       diameter=obra["Diameter (cm)"]
-       circumference=obra["Circumference (cm)"]
-       length=obra["Length (cm)"]
-       height=obra["Height (cm)"]
-       width=obra["Width (cm)"]
-       depth=obra["Depth (cm)"]
+       weight=obra["Weight"]
+       diameter=obra["Diameter"]
+       circumference=obra["Circumference"]
+       length=obra["Length"]
+       height=obra["Height"]
+       width=obra["Width"]
+       depth=obra["Depth"]
        if weight !="" :
          kgprice=float(weight)*costo
-         totalweight+=float(weight)
        if height!= "" and width!= "":
-         m2price=(float(height)/100)*float(width/100)*costo
+         m2price1=(float(height)/100)*(float(width)/100)*costo
        if height!= "" and length!= "":
-         m2price=float(height)/100*float(length/100)*costo
+         m2price2=(float(height)/100)*(float(length)/100)*costo
        if height!= "" and depth!= "":
-         m2price=float(height)/100
+         m2price3=(float(height)/100)*(float(depth)/100)*costo
        if length!= "" and width != "":
-         m2price= float(length/100)*float(width/100)*costo
+         m2price4= (float(length)/100)*(float(width)/100)*costo
        if depth!="" and width!="":
-         m2price= float(depth/100)*float(width/100)*costo
+         m2price5= (float(depth)/100)*(float(width)/100)*costo
+       if length!="" and depth!="":
+         m2price6= (float(length)/100)*(float(depth)/100)*costo
        if diameter !="":
-         m2price=3.1416*(float((diameter/2)/100)**2)*costo
+         m2price8=3.1416*(((float(diameter)/2)/100)**2)*costo
        if circumference!="":
-         m2price= 3.1416*(float(((circumference/100)/(2*3.1416))**2))*costo
+         m2price9= 3.1416*(((float(circumference)/100)/(2*3.1416))**2)*costo
+
        if length!="" and width != "" and depth != "":
-         m3price=float(height/100)*float(width/100)*float (depth/100)*costo
+         m3price1=(float(length)/100)*(float(width)/100)*(float(depth)/100)*costo
+       if height!="" and width!= "" and depth!= "":
+         m3price2=(float(height)/100)*(float(width)/100)*(float(depth)/100)*costo
+       if height!="" and width!= "" and length!= "":
+         m3price3=(float(height)/100)*(float(width)/100)*(float(length)/100)*costo
+       if length!="" and depth!= "" and height!= "":
+         m3price4=(float(length)/100)*(float(depth)/100)*(float(height)/100)*costo
        if height!="" and diameter!= "":
-         m3price=3.1416*(float((diameter/2)/100)**2)*float(height)*costo
-       lastprice= max(kgprice,m3price,m2price)
+         m3price5=3.1416*((((float(diameter))/2)/100)**2)*(float(height)/100)*costo
+       if width!="" and diameter!="":
+         m3price6=3.1416*((((float(diameter))/2)/100)**2)*(float(width)/100)*costo
+       if depth!="" and diameter!="":
+         m3price7=3.1416*((((float(diameter))/2)/100)**2)*(float(depth)/100)*costo
+       if length!="" and diameter!="":
+         m3price8=3.1416*((((float(diameter))/2)/100)**2)*(float(length)/100)*costo
+       lastprice= max(kgprice,m2price1,m2price2,m2price3,m2price4,m2price5,m2price6,m2price7,m2price8,m2price9,m3price1,m3price2,m3price3,m3price4,m3price5,m3price6,m3price7,m3price8)
        if lastprice==0:
          lastprice=48
+       obra["Price"]=lastprice
        totalprice+=lastprice
+    return (totalprice, listaobras)
+
+#Peso estimado de las obras
+def weight (listaobras):
+  peso=0
+  for obra in listaobras:
+    peso+=float(obra["Weight"])
+  return peso
+
+#Obras viejas
+def oldest (listaobras):
+  sortedlist=sortviejas(listaobras)
+  return sortedlist
+
+def sortviejas (listaobras):
+  sorted_lsit=mg.sort(listaobras, cmpmasvieja)
+  return sorted_lsit
+
+def cmpmasvieja(fecha1, fecha2):
+  if fecha1["Date"]!="" and fecha2["Date"]!="":
+    date1=dt.date.fromisoformat(fecha1)
+    date2=dt.date.fromisoformat(fecha2)
+    return date1>date2
+
+#mas costosas
+def expensive(listaobras):
+  sortlist=sortcaras(listaobras)
+  return sortlist
+
+def sortcaras(listaobras):
+  sort_list=mg.sort(listaobras, cmpmascara)
+  return sort_list
+
+def cmpmascara(precio1,precio2):
+  price1=precio1["Price"]
+  price2=precio2["Price"]
+  return price1>price2
+
+
+
 
     

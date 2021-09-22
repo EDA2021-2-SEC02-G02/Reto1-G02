@@ -64,6 +64,7 @@ def addartworkyear(catalog, fecha1, fecha2):
 def purchaseart(lista2):
     return model.purchaseart(lista2)
 
+
 #REQ. 3: clasificar las obras de un artista por técnica (Individual)
 def totalobrasartista (catalog, name):
     return model.totalobrasartista(catalog, name)
@@ -78,6 +79,11 @@ def obrastecnica(nombre, obras):
     return model.obrastecnica(nombre, obras)
 
 
+# REQ. 4: clasificar las obras por la nacionalidad de sus creadores
+def obrasNacionalidad(catalog):
+    return model.diezNacionalidades(catalog)
+
+
 #REQ. 5: transportar obras de un departamento
 def totalobras(catalog, depto):
     return model.totalobras(catalog, depto)
@@ -90,3 +96,6 @@ def weight(listaobras):
 
 def oldest(listaobras):
     return model.oldest(listaobras)
+
+def expensive(listaobras):
+    return model.expensive(listaobras)

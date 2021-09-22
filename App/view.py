@@ -44,7 +44,7 @@ def printMenu():
     print("3- Clasificar obras de un artista por técnica")
     print("4- Clasificar las obras por nacionalidad de sus creadores")
     print("5- Transportar obras de un departamento")
-    print("6- Proponer una nueva exposición en el museo")
+    
 
 
 def inicializar_catalogo():
@@ -76,14 +76,23 @@ while True:
         print("Buscando....")
         lista1=controller.addartistyear(catalog, año1, año2)
         nartistas=lt.size(lista1)
-        print("El número total de artistas en dicho rango es de: "+ str(nartistas)+", los 3 primeros artistas del rango cronológico (nombre, año de nacimiento, año de fallecimiento, nacionalidad y género) son: ")
+        print("El número total de artistas en dicho rango es de: "+ str(nartistas))
+        print(" los 3 primeros artistas del rango cronológico  son: ")
         tresfirst1=(lt.getElement(lista1,1),lt.getElement(lista1,2),lt.getElement(lista1,3))
         for artistaF in tresfirst1:
-            print(artistaF["DisplayName"], artistaF["BeginDate"], artistaF["EndDate"], artistaF["Nationality"], artistaF["Gender"])
+            print("Nombre: "+artistaF["DisplayName"]+
+                  ". Fecha de nacimiento: " +artistaF["BeginDate"]+
+                  ". Fecha de fallecimiento: " +artistaF["EndDate"]+
+                  ". Nacionalidad: " +artistaF["Nationality"]+
+                  ". Género: " +artistaF["Gender"])
         print("los 3 últimos artistas del rango cronológico (nombre, año de nacimiento, año de fallecimiento, nacionalidad y género) son: ")
         treslast1=(lt.getElement(lista1,nartistas) ,lt.getElement(lista1,nartistas-1),lt.getElement(lista1,nartistas-2))
         for artistaL in treslast1:
-            print(artistaL["DisplayName"], artistaL["BeginDate"], artistaL["EndDate"], artistaL["Nationality"], artistaL["Gender"])
+            print("Nombre: "+artistaL["DisplayName"]+
+                  ". Fecha de nacimiento: " +artistaL["BeginDate"]+
+                  ". Fecha de fallecimiento: " +artistaL["EndDate"]+
+                  ". Nacionalidad: " +artistaL["Nationality"]+
+                  ". Género: " +artistaL["Gender"])
 
     elif int(inputs[0]) == 2:
         fecha1= input("Ingrese la fecha inicial (AAAA MM DD): ")
@@ -92,17 +101,25 @@ while True:
         lista2= controller.addartworkyear(catalog, fecha1, fecha2)
         Nobrascompra=controller.purchaseart(lista2)
         tamaño=lt.size(lista2)
-        print("El número total de obras en el rango cronológico es de: "+ str(tamaño)+", El número total de obras adquiridas por compra es de "+str(Nobrascompra)+", La tres primeras obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son: ") 
+        print("El número total de obras en el rango cronológico es de: "+ str(tamaño))
+        print("El número total de obras adquiridas por compra es de: "+str(Nobrascompra))
+        print("Las tres primeras obras del rango cronológico son: ") 
         tresfirst2= (lt.getElement(lista2,1),lt.getElement(lista2,2),lt.getElement(lista2,3))
         for obraF in tresfirst2:
-            print(obraF["Title"], obraF["Date"], obraF["Medium"], obraF["Dimensions"])
+            print("Título: "+obraF["Title"]+ 
+                  ". Fecha: "+obraF["Date"]+
+                  ". Medio: " +obraF["Medium"]+
+                  ". Dimensiones: " +obraF["Dimensions"])
             print("Los artistas de la obra son: ")
             for artist in lt.iterator(obraF["Artists"]):
                 print(artist["DisplayName"])
-        print(". La tres últimas obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son: " )
+        print("Las tres últimas obras del rango cronológico son: " )
         treslast2=(lt.getElement(lista2,tamaño),lt.getElement(lista2,tamaño-1),lt.getElement(lista2,tamaño-2))
         for obraL in treslast2:
-            print(obraL["Title"],  obraL["Date"], obraL["Medium"], obraL["Dimensions"])
+            print("Título: "+obraL["Title"]+
+                  ". Fecha: "+obraL["Date"]+
+                  ". Medio: " +obraL["Medium"]+
+                  ". Dimensiones:" +obraL["Dimensions"])
             print("Los artistas de la obra son: ")
             for artist in lt.iterator(obraF["Artists"]):
                 print(artist["DisplayName"])
@@ -120,36 +137,69 @@ while True:
            listadotec=controller.obrastecnica(nombretec,totalobras)
            print("El total de las obras del artista "+name+" es de: "+str(totalo))
            print("El total de tecnicas utilizadas es de: "+str(totalm))
-           print("La técnica más utilizada por el artista es: ")
+           print("Las técnicas más utilizada por el artista son: ")
            cincofirst=(lt.getElement(totalmedio,1), lt.getElement(totalmedio,2), lt.getElement(totalmedio,3), lt.getElement(totalmedio,4), lt.getElement(totalmedio,5))
            for medium in cincofirst:
                print (medium["Nombre"],medium["valor"])           
            print("El listado de las obras de dicha técnica es: ")
            tresfirst=(lt.getElement(listadotec,1), lt.getElement(listadotec,2), lt.getElement(listadotec,3))
            for obra in tresfirst:
-              print(obra["Title"],obra["Date"],obra["Medium"],obra["Dimensions"])
+              print("Titulo: "+obra["Title"]+
+                    ". Fecha: "+obra["Date"]+
+                    ". Medio: "+obra["Medium"]+
+                    ". Dimension:"+obra["Dimensions"])
 
 
-       
+    elif int(inputs[0])== 4:
+        resultado= controller.obrasNacionalidad(catalog)
+        diez= resultado[0]
+        mejor= resultado[1]
+        print("TOP 10 NACIONALIDADES EN EL MOMA:")
+        
+        for i in diez:
+            print(i)
+        
+        print("\nEL TOP 10 SON:"+ str(diez[0][0])+"incluye: "+str(diez[0][1])+"obras")
+        print("\nPRIMEROS Y UTLIMOS TRES:"+str(diez[0][0]))
+        informacionObra(mejor)
 
 
 
-    #elif int(inputs[0]== 4):
-
-
-    #Cómo incluyo el precio y los artistas?
-    elif int(inputs[0]== 5):
+    elif int(inputs[0])== 5:
        depto=input("Ingrese el departamento del museo que desea transportar: ")
        listaobras=controller.totalobras(catalog, depto)
-       obrastransport=lt.size(listaobras)
+       totalobr=lt.size(listaobras)
        price=controller.price(listaobras)
+       precio=price[0]
        weight=controller.weight(listaobras)
-       print("El total de obras para transportar es de: "+str(obrastransport)+", el Estimado en USD del precio del servicio es de: "+str(price)+" y el peso estimado de las obras es de: "+str(weight))
+       listaobrasviejas=controller.oldest(listaobras)
+       print("El total de obras para transportar es de: "+str(totalobr))
+       print("El estimado en USD del precio del servicio es de: "+str(precio))
+       print("El peso estimado de las obras a transportar es de: "+str(weight))
        oldest=controller.oldest(listaobras)
+       listacaras=price[1]
        fiveoldest=(lt.getElement(oldest,1),lt.getElement(oldest,2), lt.getElement(oldest,3), lt.getElement(oldest,4), lt.getElement(oldest,5))
-       print(". Las 5 obras más antiguas a transportar son (Título, artista(s), clasificación, fecha de la obra, medio, dimensiones, costo asociado al transporte): ")
+       print("Las 5 obras más antiguas a transportar son: ")
        for obra in fiveoldest:
-           print(obra["Title"], obra["Artists"], obra["Classification"], obra["Date"], obra["Medium"], obra["Dimensions"], obra[""])
+           print("Titulo: "+obra["Title"]+
+                 ". Artita(s): "+obra["Artists"]+
+                 ". Clasificación: " +obra["Classification"]+
+                 ". Fecha: " +obra["Date"]+
+                 ". Medio: " +obra["Medium"]+
+                 ". Dimensiones: " +obra["Dimensions"]+ 
+                 ". Costo asociado al transporte: "+obra["Price"])
+       listaexpensive=controller.expensive(listacaras)
+       fiveexpensive=(lt.getElement(listaexpensive,1), lt.getElement(listaexpensive,2),lt.getElement(listaexpensive,3), lt.getElement(listaexpensive,4), lt.getElement(listaexpensive,5))
+       print("Las 5 obras más antiguas a transportar son :" )
+       for obra in fiveexpensive:
+            print("Titulo: "+obra["Title"]+
+                 ". Artita(s): "+obra["Artists"]+
+                 ". Clasificación: " +obra["Classification"]+
+                 ". Fecha: " +obra["Date"]+
+                 ". Medio: " +obra["Medium"]+
+                 ". Dimensiones: " +obra["Dimensions"]+ 
+                 ". Costo asociado al transporte: "+obra["Price"])
+
     
     else:
         sys.exit(0)
