@@ -68,8 +68,15 @@ def purchaseart(lista2):
 def totalobrasartista (catalog, name):
     return model.totalobrasartista(catalog, name)
 
-def totalmedium(catalog, name):
-    return model.totalmedium(catalog, name)
+def totalmedios(obras):
+    return model.totalmedios(obras)
+
+def primeratecnica(sortedlist):
+    return model.primeratecnica(sortedlist)
+
+def obrastecnica(nombre, obras):
+    return model.obrastecnica(nombre, obras)
+
 
 #REQ. 5: transportar obras de un departamento
 def totalobras(catalog, depto):

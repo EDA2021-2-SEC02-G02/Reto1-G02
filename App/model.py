@@ -163,30 +163,34 @@ def cmpArtworkByDateAcquired (obra1, obra2):
         fecha2= dt.date.fromisoformat(obra2["DateAcquired"])
         return fecha1<fecha2
 
+
 #REQ. 3: clasificar las obras de un artista por técnica (Individual)
 # Total de obras
 def totalobrasartista (catalog, name):
-    tecnicas=lt.newList("ARRAY_LIST")
+    obras=lt.newList("ARRAY_LIST")
     i=1
     while i<= lt.size(catalog["Artista"]):
         artista=lt.getElement(catalog["Artista"],i)
         if artista["DisplayName"]== name:
             obras=artista["Artworks"]
+        i+=1
+    return obras
 
+#Total técnicas (medios) utilizados
 def totalmedios(obras):
+    tecnicas=lt.newList("ARRAY_LIST", cmpfunction=cmpmediums)
     j=1
     while j <=lt.size(obras):
       obra=lt.getElement(obras,j)
-              tecnica=obra["Medium"]
-              posicion=lt.isPresent(tecnicas,tecnica)
-              if posicion>0:
-                 tec=lt.getElement(tecnicas, posicion)
-                 tec["valor"]+=1
-              else:
-                tec={"Nombre":tecnica,"valor":1}
-                lt.addLast(tecnicas, tec)
-              j+=1
-      i+=1
+      tecnica=obra["Medium"]
+      posicion=lt.isPresent(tecnicas,tecnica)
+      if posicion>0:
+          tec=lt.getElement(tecnicas, posicion)
+          tec["valor"]+=1
+      else:
+          tec={"Nombre":tecnica,"valor":1}
+          lt.addLast(tecnicas, tec)
+      j+=1
     sortedlist=sorttecnicas(tecnicas)
     return sortedlist
 
@@ -194,49 +198,32 @@ def sorttecnicas(tecnicas):
    sortedlist=mg.sort(tecnicas, cmptecnicas)
    return sortedlist
 
-def cmptecnicas(tecnica, )       
+def cmptecnicas( tecnica1, tecnica2):
+    if tecnica1["valor"]>=tecnica2["valor"]:
+       return True
+    else:
+       return False
+  
+def cmpmediums (tecnica1,tecnica2):
+  if tecnica1== tecnica2["Nombre"]:
+    return 0
+  else:
+    return 1
 
-# Total técnicas (medios) utilizados.
-def totalmedium (catalog, name):
-    listamedium= lt.newList("ARRAY_LIST")
-    artistas=catalog["Artista"]
-    for artista in artistas:
-      if name == artista["DisplayName"]:
-        artw=artista["Artworks"]
-        for artone in artw:
-           medio=artone["Medium"]
-           if medio not in listamedium:
-             lt.addLast(listamedium,medio)
-      
-#La técnica mas utilizada
-def tecnicarepetida(catalog, name):
-    listatecn= lt.newList("ARRAY_LIST")
-    artistas=catalog["Artista"]
-    for artista in artistas:
-      if name == artista["DisplayName"]:
-        artw=artista["Artworks"]
-        for artone in artw:
-           medio=artone["Medium"]
-           lt.addLast(listatecn, medio)
-
-#cómo hago para saber cual medio es que más se repite en la lista
-#def encontrarrepetido(listamedium):
- # mayor=""
-  #valor=0
-  #for medio in listamedium:
-   # if medio 
+#La técnica mas utilizada  
+def primeratecnica (sortedlist):
+   nombre=lt.firstElement(sortedlist)
+   nombre=nombre["Nombre"]
+   return nombre
 
 #El listado de las obras de dicha técnica
-#Ya llegué a saber si esa obra tiene el medio repetido, pero cómo hago para saber su nombre, fecha, etc
-#def listado(name, catalog, repetido):
- #  lista=lt.newList("ARRAY_LIST")
-  # artistas=catalog["Artista"]
-   #for artista in artistas:
-    #  if name == artista["DisplayName"]:
-     #   artw=artista["Artworks"]
-      #  for artone in artw:
-          #if artone ==repetido
-
+def obrastecnica(nombre,obras):
+  listaobras=lt.newList("ARRAY_LIST")
+  for obra in lt.iterator(obras):
+    if obra["Medium"]==nombre:
+      lt.addLast(listaobras,obra)
+  return listaobras
+    
 
 #REQ. 5: transportar obras de un departamento
 #Total de obras para transportar (size de esto)
@@ -249,44 +236,20 @@ def totalobras(catalog, depto):
    return listaobras
 
 #Estimado en USD del precio del servicio
-#Cómo hago para obtener las dimendiones
-def price (listaobras):
-  costototal=0
-  for obra in listaobras:
-     medida=int(obra["Dimensions"])
-     if medida ==0:
-        costo=48
-     else:
-        costo=(medida/100)*72
-     costototal+=costo
-    
-def weight (listaobras):
-  pesototal=0
-  for obra in listaobras:
-    peso=int(obra["Weight"])
-    pesototal+=peso
-  return pesototal
-
-def oldest(listaobras):
-  sub_list = lt.subList(listaobras, 1,lt.size(listaobras))
-  sub_list = sub_list.copy()
-  sorted_list=mg.sort(sub_list, cmpArtworkByDate)
-  return sorted_list
-
-def cmpArtworkByDate(obra1, obra2):
-   if obra1["Date"]!= "" and obra2["Date"]!= "":
-        fecha1= dt.date.fromisoformat(obra1["Date"])
-        fecha2= dt.date.fromisoformat(obra2["Date"])
-        return fecha1>fecha2 
-
-
-
-
-
-   
-
-
-
-
-
-
+#def price (listaobras):
+   # kgprice=0
+   # m2price=0
+    #m3price=0
+    #totalprice=0
+    #totalweight=0
+    #costo=72
+    #for obra in listaobras:
+     #  weight=obra["Weight (kg)"]
+      # diameter=obra["Diameter (cm)"]
+       #circumference=obra["Circumference (cm)"]
+    #   length=obra["Length (cm)"]
+     #  height=obra["Height (cm)"]
+     #  width=obra["Width (cm)"]
+      # depth=obra["Depth (cm)"]
+      # if weight !="":
+      

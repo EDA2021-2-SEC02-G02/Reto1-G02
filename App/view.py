@@ -77,7 +77,6 @@ while True:
         lista1=controller.addartistyear(catalog, año1, año2)
         nartistas=lt.size(lista1)
         print("El número total de artistas en dicho rango es de: "+ str(nartistas)+", los 3 primeros artistas del rango cronológico (nombre, año de nacimiento, año de fallecimiento, nacionalidad y género) son: ")
-        #if
         tresfirst1=(lt.getElement(lista1,1),lt.getElement(lista1,2),lt.getElement(lista1,3))
         for artistaF in tresfirst1:
             print(artistaF["DisplayName"], artistaF["BeginDate"], artistaF["EndDate"], artistaF["Nationality"], artistaF["Gender"])
@@ -86,7 +85,6 @@ while True:
         for artistaL in treslast1:
             print(artistaL["DisplayName"], artistaL["BeginDate"], artistaL["EndDate"], artistaL["Nationality"], artistaL["Gender"])
 
-#solo nombre
     elif int(inputs[0]) == 2:
         fecha1= input("Ingrese la fecha inicial (AAAA MM DD): ")
         fecha2= input("Ingrese la fecha final (AAAA MM DD): ")
@@ -101,7 +99,7 @@ while True:
             print("Los artistas de la obra son: ")
             for artist in lt.iterator(obraF["Artists"]):
                 print(artist["DisplayName"])
-        #print(". La tres últimas obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son: " )
+        print(". La tres últimas obras del rango cronológico (título, artista(s), fecha, medio y dimensiones) son: " )
         treslast2=(lt.getElement(lista2,tamaño),lt.getElement(lista2,tamaño-1),lt.getElement(lista2,tamaño-2))
         for obraL in treslast2:
             print(obraL["Title"],  obraL["Date"], obraL["Medium"], obraL["Dimensions"])
@@ -109,11 +107,27 @@ while True:
             for artist in lt.iterator(obraF["Artists"]):
                 print(artist["DisplayName"])
 
-    elif int(inputs[0]== 3):
-       name=input("Ingrese el nombre del artista: ")
-       totalobras=controller.totalobrasartista(catalog, name)
-       totalmedio=lt.size(controller.totalmedium(catalog, name))
-       print("El total de obras del artista "+name+"es de: "+str(totalobras)+", el total de técnicas utilizadas por el artista es de: "+str(totalmedium) )
+    elif int(inputs[0]) == 3:
+        name=input("Ingrese el nombre del artista: ")
+        totalobras=controller.totalobrasartista(catalog, name)
+        totalo=lt.size(totalobras)
+        if totalo==0:
+            print("El artista no tiene obras")
+        else:
+           totalmedio=controller.totalmedios(totalobras)
+           totalm=lt.size(totalmedio)
+           nombretec=controller.primeratecnica(totalmedio)
+           listadotec=controller.obrastecnica(nombretec,totalobras)
+           print("El total de las obras del artista "+name+" es de: "+str(totalo))
+           print("El total de tecnicas utilizadas es de: "+str(totalm))
+           print("La técnica más utilizada por el artista es: "+str(nombretec))
+           print("El listado de las obras de dicha técnica es: ")
+           tresfirst=(lt.getElement(totalmedio,1), lt.getElement(totalmedio,2), lt.getElement(totalmedio,3))
+           for obra in lt.iterator(tresfirst):
+              print("Titulo: "+obra["Title"]+", Fecha: "+obra["Date"]+" Medio: "+obra["Medium"]+", Dimensiones: "+obra["Dimensions"])
+
+
+       
 
 
 
