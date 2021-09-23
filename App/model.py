@@ -102,7 +102,6 @@ def compareartworks(ID,artistas):
 # REQ. 1: listar cronológicamente los artistas  
  
 def addartistyear(catalog, año1, año2):
-    start_time=time.process_time()
     artistsinrange=lt.newList("ARRAY_LIST")
     i=1
     while i<= lt.size(catalog["Artista"]):
@@ -111,9 +110,7 @@ def addartistyear(catalog, año1, año2):
             lt.addLast(artistsinrange, artista)
         i+=1
     sortedlist=sortyear(artistsinrange)
-    stop_time= time.process_time()
-    elapsed_time_mseg=(stop_time - start_time)*1000
-    return sortedlist, elapsed_time_mseg
+    return sortedlist
 
   # Funciones de ordenamiento
 def sortyear (artistsinrange):
@@ -130,7 +127,6 @@ def cmpArtworkByBeginDate (date1, date2):
 
 #REQ. 2: listar cronológicamente las adquisiciones 
 def addartworkyear(catalog, fecha1,fecha2):
-    start_time=time.process_time()
     fecha1=dt.date.fromisoformat(fecha1)
     fecha2=dt.date.fromisoformat(fecha2)
     artworksinrange=lt.newList("ARRAY_LIST")
@@ -143,13 +139,10 @@ def addartworkyear(catalog, fecha1,fecha2):
                lt.addLast(artworksinrange, obra)
         i+=1
     sortlist=sortdate(artworksinrange)
-    stop_time= time.process_time()
-    elapsed_time_mseg=(stop_time - start_time)*1000
-    return sortlist, elapsed_time_mseg
+    return sortlist
 
   #encontrar número de obras compradas
 def purchaseart (listaordenada2):
-    start_time=time.process_time()
     i=1
     n=0
     while i<=lt.size(listaordenada2):
@@ -157,9 +150,7 @@ def purchaseart (listaordenada2):
         if obra["CreditLine"]=="Purchase":
             n+=1
         i+=1
-    stop_time= time.process_time()
-    elapsed_time_mseg=(stop_time - start_time)*1000
-    return n, elapsed_time_mseg
+    return n
     
   # Funciones de ordenamiento
 def sortdate (artworksinrange):
@@ -177,7 +168,6 @@ def cmpArtworkByDateAcquired (obra1, obra2):
 #REQ. 3: clasificar las obras de un artista por técnica (Individual)
 # Total de obras
 def totalobrasartista (catalog, name):
-    start_time=time.process_time()
     obras=lt.newList("ARRAY_LIST")
     i=1
     while i<= lt.size(catalog["Artista"]):
@@ -185,13 +175,10 @@ def totalobrasartista (catalog, name):
         if artista["DisplayName"]== name:
             obras=artista["Artworks"]
         i+=1
-    stop_time= time.process_time()
-    elapsed_time_mseg=(stop_time - start_time)*1000
-    return obras, elapsed_time_mseg
+    return obras
 
 #Total técnicas (medios) utilizados
 def totalmedios(obras):
-    start_time=time.process_time()
     tecnicas=lt.newList("ARRAY_LIST", cmpfunction=cmpmediums)
     j=1
     while j <=lt.size(obras):
@@ -206,9 +193,7 @@ def totalmedios(obras):
           lt.addLast(tecnicas, tec)
       j+=1
     sortedlist=sorttecnicas(tecnicas)
-    stop_time= time.process_time()
-    elapsed_time_mseg=(stop_time - start_time)*1000
-    return sortedlist, elapsed_time_mseg
+    return sortedlist
 
 def sorttecnicas(tecnicas):
    sortedlist=mg.sort(tecnicas, cmptecnicas)
@@ -228,24 +213,18 @@ def cmpmediums (tecnica1,tecnica2):
 
 #La técnica mas utilizada  
 def primeratecnica (sortedlist):
-   start_time=time.process_time()
    nombre=lt.firstElement(sortedlist)
    nombre=nombre["Nombre"]
-   stop_time= time.process_time()
-   elapsed_time_mseg=(stop_time - start_time)*1000
-   return nombre, elapsed_time_mseg
+   return nombre
 
 #El listado de las obras de dicha técnica
 def obrastecnica1(nombre,obras):
-  start_time=time.process_time()
   listaobras=lt.newList("ARRAY_LIST")
   for obra in lt.iterator(obras):
     if obra["Medium"]==nombre:
       lt.addLast(listaobras,obra)
-  stop_time= time.process_time()
-  elapsed_time_mseg=(stop_time - start_time)*1000
-  return listaobras, elapsed_time_mseg
-    
+  return listaobras
+
 #REQ. 4:clasificar las obras por la nacionalidad de sus creadores
 
 def tomar (n, iterable):
@@ -296,19 +275,15 @@ def obrastecnica (nombre,obras):
 #REQ. 5: transportar obras de un departamento
 #Total de obras para transportar (size de esto)
 def totalobras(catalog, depto):
-   start_time=time.process_time()
    listaobras= lt.newList("ARRAY_LIST")
    obras=catalog["Obra"]
    for obra in lt.iterator(obras):
      if obra["Department"]==depto:
        lt.addLast(listaobras,obra)
-   stop_time= time.process_time()
-   elapsed_time_mseg=(stop_time - start_time)*1000
-   return listaobras, elapsed_time_mseg
+   return listaobras
 
 #Estimado en USD del precio del servicio
 def price (listaobras):
-    start_time=time.process_time()
     totalprice=0
     costo=72
     for obra in lt.iterator(listaobras):
@@ -377,13 +352,10 @@ def price (listaobras):
          lastprice=48
        obra["Price"]=lastprice
        totalprice+=lastprice
-    stop_time= time.process_time()
-    elapsed_time_mseg=(stop_time - start_time)*1000
-    return (totalprice, listaobras, elapsed_time_mseg)
+    return (totalprice, listaobras)
 
 #Peso estimado de las obras
 def weight (listaobras):
-  start_time=time.process_time()
   peso=0
   for obra in lt.iterator(listaobras):
     pes=obra["Weight"]
@@ -392,17 +364,12 @@ def weight (listaobras):
     else:
       pesinfloat=float(pes)
       peso+=pesinfloat
-  stop_time= time.process_time()
-  elapsed_time_mseg=(stop_time - start_time)*1000
-  return peso, elapsed_time_mseg
+  return peso
 
 #Obras viejas
 def oldest (listaobras):
-  start_time=time.process_time()
   sortedlist=sortviejas(listaobras)
-  stop_time= time.process_time()
-  elapsed_time_mseg=(stop_time - start_time)*1000
-  return sortedlist, elapsed_time_mseg
+  return sortedlist
 
 def sortviejas (listaobras):
   sorted_list=mg.sort(listaobras, cmpmasvieja)
@@ -416,11 +383,8 @@ def cmpmasvieja(fecha1, fecha2):
 
 #mas costosas
 def expensive(listaobras):
-  start_time=time.process_time()
   sortlist=sortcaras(listaobras)
-  stop_time= time.process_time()
-  elapsed_time_mseg=(stop_time - start_time)*1000
-  return sortlist, elapsed_time_mseg
+  return sortlist
 
 def sortcaras(listaobras):
   sort_list=mg.sort(listaobras, cmpmascara)
