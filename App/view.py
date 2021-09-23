@@ -25,6 +25,7 @@
 import config as cf
 import sys
 import controller
+import time as time
 from DISClib.ADT import list as lt
 assert cf
 
@@ -63,12 +64,15 @@ while True:
 
 #Carga de datos
     if int(inputs[0]) == 0:
+        start_time=time.process_time()
         print("Cargando información de los archivos ....")
-        catalog, time=inicializar_catalogo()
+        catalog=inicializar_catalogo()
         cargarinfo(catalog)
         print("Artistas cargados "+str(lt.size(catalog["Artista"])))
         print("Obras cargadas "+str(lt.size(catalog["Obra"])))
-        print(time)
+        stop_time= time.process_time()
+        elapsed_time_mseg=(stop_time - start_time)*1000
+        print(elapsed_time_mseg)
 
     elif int(inputs[0]) == 1:
         año1= int(input("Ingrese el año inicial del que desea organizar los artistas: "))

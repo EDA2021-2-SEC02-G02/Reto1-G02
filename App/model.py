@@ -37,22 +37,15 @@ from DISClib.Algorithms.Sorting import quicksort as qu
 
 assert cf
 
-"""
-Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
-los mismos.
-"""
 
 # Construccion de modelos
 def newCatalog():
-    start_time=time.process_time()
     catalog = {"Artista":None,
                  "Obra":None }
 
     catalog['Artista']= lt.newList("ARRAY_LIST", cmpfunction=compareartworks)
     catalog["Obra"]=lt.newList("ARRAY_LIST")
-    stop_time= time.process_time()
-    elapsed_time_mseg=(stop_time - start_time)*1000
-    return catalog, elapsed_time_mseg
+    return catalog
 
 # Funciones para agregar informacion al catalogo
 def addartista(catalog, artistas):
@@ -64,6 +57,7 @@ def addartista(catalog, artistas):
              "Gender": artistas["Gender"],
              "Artworks":lt.newList("ARRAY_LIST")}
         lt.addLast(catalog["Artista"],artista)
+  
 
 def addobra(catalog, obras):
         obra={"ObjectID":obras["ObjectID"],
@@ -88,6 +82,7 @@ def addobra(catalog, obras):
         IDartista= obra["ConstituentID"].split(",")
         for artista in IDartista:
             addArtworkartist(catalog, artista, obra)
+
       
 def addArtworkartist(catalog, IDartista, obra):
     artistas=catalog["Artista"]
