@@ -75,8 +75,8 @@ def totalmedios(obras):
 def primeratecnica(sortedlist):
     return model.primeratecnica(sortedlist)
 
-def obrastecnica(nombre, obras):
-    return model.obrastecnica(nombre, obras)
+def obrastecnica1(nombre, obras):
+    return model.obrastecnica1(nombre, obras)
 
 
 # REQ. 4: clasificar las obras por la nacionalidad de sus creadores

@@ -136,7 +136,7 @@ while True:
            totalmedio, time2=controller.totalmedios(totalobras)
            totalm=lt.size(totalmedio)
            nombretec, time3=controller.primeratecnica(totalmedio)
-           listadotec, time4=controller.obrastecnica(nombretec,totalobras)
+           listadotec, time4=controller.obrastecnica1(nombretec,totalobras)
            print("El total de las obras del artista "+name+" es de: "+str(totalo))
            print("El total de tecnicas utilizadas es de: "+str(totalm))
            print("Las técnicas más utilizada por el artista son: ")
@@ -206,7 +206,7 @@ while True:
             print("El/los artista(s) de la obra son: ")
             for artist in lt.iterator(obra["Artists"]):
                 print(artist["DisplayName"])
-       print(str(int(time1))+int(price[2])+int(time3)+int(time4)+int(time5))
+       print(str(int(time1)+int(price[2])+int(time3)+int(time4)+int(time5)))
 
     
     else:

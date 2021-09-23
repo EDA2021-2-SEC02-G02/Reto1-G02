@@ -50,7 +50,6 @@ def newCatalog():
 
     catalog['Artista']= lt.newList("ARRAY_LIST", cmpfunction=compareartworks)
     catalog["Obra"]=lt.newList("ARRAY_LIST")
-    
     stop_time= time.process_time()
     elapsed_time_mseg=(stop_time - start_time)*1000
     return catalog, elapsed_time_mseg
@@ -242,7 +241,7 @@ def primeratecnica (sortedlist):
    return nombre, elapsed_time_mseg
 
 #El listado de las obras de dicha técnica
-def obrastecnica(nombre,obras):
+def obrastecnica1(nombre,obras):
   start_time=time.process_time()
   listaobras=lt.newList("ARRAY_LIST")
   for obra in lt.iterator(obras):
@@ -290,7 +289,7 @@ def diezNacionalidades (catalog):
     
   return nacionalidades, lista
 
-def obrastecnica(nombre,obras):
+def obrastecnica (nombre,obras):
   listaobras=lt.newList("ARRAY_LIST")
   for obra in lt.iterator(obras):
     if obra["Medium"]==nombre:
