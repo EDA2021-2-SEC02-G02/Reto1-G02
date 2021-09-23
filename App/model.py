@@ -169,12 +169,9 @@ def cmpArtworkByDateAcquired (obra1, obra2):
 # Total de obras
 def totalobrasartista (catalog, name):
     obras=lt.newList("ARRAY_LIST")
-    i=1
-    while i<= lt.size(catalog["Artista"]):
-        artista=lt.getElement(catalog["Artista"],i)
+    for artista in lt.iterator(catalog["Artista"]):
         if artista["DisplayName"]== name:
             obras=artista["Artworks"]
-        i+=1
     return obras
 
 #Total técnicas (medios) utilizados
