@@ -74,7 +74,7 @@ while True:
         año1= int(input("Ingrese el año inicial del que desea organizar los artistas: "))
         año2= int(input("Ingrese el año final del que desea organizar los artistas: "))
         print("Buscando....")
-        lista1=controller.addartistyear(catalog, año1, año2)
+        lista1,time=controller.addartistyear(catalog, año1, año2)
         nartistas=lt.size(lista1)
         print("El número total de artistas en dicho rango es de: "+ str(nartistas))
         print(" los 3 primeros artistas del rango cronológico  son: ")
@@ -93,13 +93,14 @@ while True:
                   ". Fecha de fallecimiento: " +artistaL["EndDate"]+
                   ". Nacionalidad: " +artistaL["Nationality"]+
                   ". Género: " +artistaL["Gender"])
+        print(time)
 
     elif int(inputs[0]) == 2:
         fecha1= input("Ingrese la fecha inicial (AAAA MM DD): ")
         fecha2= input("Ingrese la fecha final (AAAA MM DD): ")
         print("Creando lista ....")
-        lista2= controller.addartworkyear(catalog, fecha1, fecha2)
-        Nobrascompra=controller.purchaseart(lista2)
+        lista2, time1= controller.addartworkyear(catalog, fecha1, fecha2)
+        Nobrascompra, time2=controller.purchaseart(lista2)
         tamaño=lt.size(lista2)
         print("El número total de obras en el rango cronológico es de: "+ str(tamaño))
         print("El número total de obras adquiridas por compra es de: "+str(Nobrascompra))
@@ -123,18 +124,19 @@ while True:
             print("Los artistas de la obra son: ")
             for artist in lt.iterator(obraF["Artists"]):
                 print(artist["DisplayName"])
-
+        print(str(int(time1)+int(time2)))
+        
     elif int(inputs[0]) == 3:
         name=input("Ingrese el nombre del artista: ")
-        totalobras=controller.totalobrasartista(catalog, name)
+        totalobras, time1=controller.totalobrasartista(catalog, name)
         totalo=lt.size(totalobras)
         if totalo==0:
             print("El artista no tiene obras")
         else:
-           totalmedio=controller.totalmedios(totalobras)
+           totalmedio, time2=controller.totalmedios(totalobras)
            totalm=lt.size(totalmedio)
-           nombretec=controller.primeratecnica(totalmedio)
-           listadotec=controller.obrastecnica(nombretec,totalobras)
+           nombretec, time3=controller.primeratecnica(totalmedio)
+           listadotec, time4=controller.obrastecnica(nombretec,totalobras)
            print("El total de las obras del artista "+name+" es de: "+str(totalo))
            print("El total de tecnicas utilizadas es de: "+str(totalm))
            print("Las técnicas más utilizada por el artista son: ")
@@ -148,6 +150,7 @@ while True:
                     ". Fecha: "+obra["Date"]+
                     ". Medio: "+obra["Medium"]+
                     ". Dimension:"+obra["Dimensions"])
+           print(str(int(time1)+int(time2)+int(time3)+int(time4)))
 
 
     elif int(inputs[0])== 4:
@@ -167,16 +170,16 @@ while True:
 
     elif int(inputs[0])== 5:
        depto=input("Ingrese el departamento del museo que desea transportar: ")
-       listaobras=controller.totalobras(catalog, depto)
+       listaobras, time1=controller.totalobras(catalog, depto)
        totalobr=lt.size(listaobras)
        price=controller.price(listaobras)
        precio=price[0]
-       weight=controller.weight(listaobras)
+       weight, time3=controller.weight(listaobras)
        listaobrasviejas=controller.oldest(listaobras)
        print("El total de obras para transportar es de: "+str(totalobr))
        print("El estimado en USD del precio del servicio es de: "+str(precio))
        print("El peso estimado de las obras a transportar es de: "+str(weight))
-       oldest=controller.oldest(price[1])
+       oldest, time4=controller.oldest(price[1])
        listacaras=price[1]
        fiveoldest=(lt.getElement(oldest,1),lt.getElement(oldest,2), lt.getElement(oldest,3), lt.getElement(oldest,4), lt.getElement(oldest,5))
        print("Las 5 obras más antiguas a transportar son: ")
@@ -190,7 +193,7 @@ while True:
             print("El/los artista(s) de la obra son: ")
             for artist in lt.iterator(obra["Artists"]):
                 print(artist["DisplayName"])
-       listaexpensive=controller.expensive(listacaras)
+       listaexpensive, time5=controller.expensive(listacaras)
        fiveexpensive=(lt.getElement(listaexpensive,1), lt.getElement(listaexpensive,2),lt.getElement(listaexpensive,3), lt.getElement(listaexpensive,4), lt.getElement(listaexpensive,5))
        print("Las 5 obras más antiguas a transportar son :" )
        for obra in fiveexpensive:
@@ -203,6 +206,7 @@ while True:
             print("El/los artista(s) de la obra son: ")
             for artist in lt.iterator(obra["Artists"]):
                 print(artist["DisplayName"])
+       print(str(int(time1))+int(price[2])+int(time3)+int(time4)+int(time5))
 
     
     else:
